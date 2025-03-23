@@ -1,5 +1,7 @@
 package app.web.dto;
 
+import app.contract.model.Contract;
+import app.department.model.Department;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
@@ -8,7 +10,7 @@ import org.hibernate.validator.constraints.URL;
 
 @Data
 @Builder
-public class UserRequest {
+public class UserEditRequest {
 
     @Size(max = 20, message = "First name can't have more than 20 symbols.")
     private String firstName;
@@ -22,5 +24,8 @@ public class UserRequest {
     @URL(message = "Requires correct web link format.")
     private String profilePicture;
 
+    private Department department;
+
+    private Contract contract;
 
 }
