@@ -66,11 +66,15 @@
                     <h3>Upcoming Vacations</h3>
                 </div>
                 <div class="card-body">
-                    <div if="${vacations.empty}" class="alert alert-info">
+
+                    <div th:if="${user.role.name() == 'USER'}"
+                            if="${vacations.empty}" class="alert alert-info">
                         You have no upcoming vacations. <a href="@{/vacation}">Plan one now!</a>
                     </div>
+
+
                     <div each="vacation : ${vacations}" class="mb-3">
-                        <h5 text="${vacation.destination.name}">Destination Name</h5>
+                        <h5 text="${vacation.destination.name}">Vacations</h5>
                         <p>
                             <strong>Dates:</strong>
                             <span text="${#temporals.format(vacation.startDate, 'MMM dd, yyyy')}">Start Date</span> -
@@ -88,10 +92,18 @@
                 <div class="card-header bg-primary text-white">
                     <h3>Quick Actions</h3>
                 </div>
-                <div class="card-body">
-                    <a href="/vacation" class="btn btn-primary btn-block mb-3">Plan a New Vacation</a>
-                    <a href="/destinations" class="btn btn-secondary btn-block mb-3">Explore Destinations</a>
-                    <a href="/profile" class="btn btn-secondary btn-block mb-3">View Profile</a>
+                <br>
+                <a th:if="${user.role.name() == 'MANAGER'}"
+                   href="/vacation" class="btn btn-primary btn-block mb-3">Confirm request</a>
+                <a th:if="${user.role.name() == 'ADMIN'}"
+                   href="/destinations" class="btn btn-secondary btn-block mb-3">Edit request</a>
+                <a th:if="${user.role.name() == 'USER'}"
+                   href="/destinations" class="btn btn-secondary btn-block mb-3">Create request</a>
+                <a th:if="${user.role.name() == 'ADMIN'}"
+                   href="/users" class="btn btn-secondary btn-block mb-3">View Users</a>
+
+                </div>
+
                 </div>
             </div>
         </div>

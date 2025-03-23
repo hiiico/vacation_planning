@@ -36,8 +36,59 @@
       <div class="card shadow">
         <div class="card-body">
           <h3>User Information</h3>
+
+          <div class="profile-header">
+            <img th:src="${#strings.isEmpty(user.profilePicture) ? '/images/avatar.jpg' : user.profilePicture}" class="profile-avatar" alt="">
+          </div>
           <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
-          <p><strong>Department:</strong> <span text="${user.department != null ? user.department.name : 'N/A'}"></span></p>
+          <p><strong>Department:</strong> <span th:text="${user.department != null ? user.department.name : 'N/A'}"></span></p>
+
+
+          <form th:action="@{'/users/' + ${user.id} + '/profile'}"
+                th:method="PUT"
+                th:object="${userEditRequest}"
+                class="">
+            <div class="mb-3">
+            <label for="firstName">First Name</label>
+            <input th:field="*{firstName}"
+                   type="text"
+                   id="firstName"
+                   class="form-control"
+                   placeholder="First Name">
+            <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="alert alert-danger"></p>
+              </div>
+            <div class="mb-3">
+              <label for="lastName">Last Name</label>
+            <input th:field="*{lastName}"
+                   type="text"
+                   id="lastName"
+                   class="form-control"
+                   placeholder="Last Name">
+            <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="alert alert-danger"></p>
+            </div>
+            <div class="mb-3">
+              <label for="email">Email</label>
+            <input th:field="*{email}"
+                   type="text"
+                   id="email"
+                   class="form-control"
+                   placeholder="Email Address">
+            <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert alert-danger"></p>
+            </div>
+            <div class="mb-3">
+            <label for="profilePicture">Profile Picture URL</label>
+            <input th:field="*{profilePicture}"
+                   type="text"
+                   id="profilePicture"
+                   class="form-control"
+                   placeholder="Image Link">
+            <p th:if="${#fields.hasErrors('profilePicture')}" th:errors="*{profilePicture}" class="alert alert-danger"></p>
+            </div>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+          </form>
+
         </div>
       </div>
 
