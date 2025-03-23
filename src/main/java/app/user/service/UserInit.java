@@ -9,18 +9,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserInit implements CommandLineRunner {
 
-    private final UserService employeeService;
+    private final UserService userService;
 
     @Autowired
-    public UserInit(UserService employeeService) {
-        this.employeeService = employeeService;
+    public UserInit(UserService userService) {
+        this.userService = userService;
     }
 
 
     @Override
     public void run(String... args) throws Exception {
 
-        if (!employeeService.getAllUser().isEmpty()) {
+        if (!userService.getAllUser().isEmpty()) {
             return;
         }
 
@@ -29,7 +29,7 @@ public class UserInit implements CommandLineRunner {
                 .password("Hristo1972")
                 .role(UserRole.ADMIN)
                 .build();
-        employeeService.register(registerUser);
+        userService.register(registerUser);
     }
 
 }

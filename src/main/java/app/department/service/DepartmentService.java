@@ -24,20 +24,20 @@ public class DepartmentService {
         this.departmentRepository = departmentRepository;
     }
 
-    public Department createDepartment(User employee) {
+    public Department createDepartment(User user) {
 
-        Department department = departmentRepository.save(initilizeDepartment(employee));
+        Department department = departmentRepository.save(initilizeDepartment(user));
         log.info("Successfully created new department with name [%s] and type [%s]."
                 .formatted(department.getName(), department.getType()));
         return department;
     }
 
-    private Department initilizeDepartment(User employee) {
+    private Department initilizeDepartment(User user) {
 
         return Department.builder()
                 .name("HR")
                 .type(DepartmentType.MANAGEMENT)
-                .manager(employee)
+                .manager(user)
                 .build();
     }
 
@@ -57,5 +57,16 @@ public class DepartmentService {
 
     public void deleteDepartment(UUID id) {
         departmentRepository.deleteById(id);
+    }
+
+    public Department createDefaultDepartment(User user) {
+
+        Department defaultDepartment = Department.builder()
+                .name("departmental_distribution")
+                .type(DepartmentType.DISTRIBUTION)
+                .manager(user)
+                .build();
+
+        return departmentRepository.save(defaultDepartment);
     }
 }

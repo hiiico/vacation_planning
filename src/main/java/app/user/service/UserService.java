@@ -57,12 +57,20 @@ public class UserService {
         }
 
         User user = userRepository.save(initializeUser(registerRequest));
-        Department department = departmentService.createDepartment(user);
+        Department department;
+        //TODO if getAllDepartments is empty
+        if(departmentService.getAllDepartments().isEmpty()) {
+            department = departmentService.createDepartment(user);
+        } else{
+            //TODO else create default department
+            department = departmentService.createDefaultDepartment(user);
+        }
+
         user.setDepartment(department);
         Contract contract = contractService.createDefaultContract(user, department);
         user.setContract(contract);
 
-     //   notificationService.saveNotificationPreference(user.getId(), false, null);
+        notificationService.saveNotificationPreference(user.getId(), false, null);
 
         log.info("Successfully created new Employee account for username [%s] and id [%s]"
                 .formatted(registerRequest.getUsername(), user.getId()));

@@ -11,12 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.UUID;
 
-@FeignClient(name = "notification-svc", url="http://localhost:8081/api/v1/notifications")
+@FeignClient(name = "vacation-planning-notifications", url="http://localhost:8081/api/v1/notifications")
 public interface NotificationClient {
-
-    @GetMapping("/test")
-    ResponseEntity<String> getHelloMessage(
-            @RequestParam(name="name") String name);
 
     @PostMapping("/preferences")
     ResponseEntity<Void> upsertNotificationPreferences(

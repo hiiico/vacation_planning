@@ -35,32 +35,38 @@
         </div>
         <div class="card-body">
           <!-- Display error message if registration fails -->
-          <div if="${error}" class="alert alert-danger">
-            <span text="${error}">Error message</span>
-          </div>
-          <form
-                  action="@{/register}"
-                  object="${user}"
-                  method="post">
+       <!--   <div th:if="${error}" class="alert alert-danger">
+            <span th:text="${error}">Error message</span>
+          </div> -->
+          <form th:action="@{/register}"
+                th:object="${registerRequest}"
+                th:method="post">
             <div class="mb-3">
               <label for="username" class="form-label">Username</label>
-              <input type="text" class="form-control" id="username" field="*{username}" required>
-              <div if="${#fields.hasErrors('username')}" class="text-danger">
-                <small errors="*{username}">Username error</small>
+              <input th:field="*{username}"
+                     type="text"
+                     class="form-control"
+                     id="username"  required>
+              <div th:if="${#fields.hasErrors('username')}"
+                   th:class="text-danger">
+                <small th:errors="*{username}">Username error</small>
               </div>
             </div>
             <div class="mb-3">
               <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" id="password" field="*{password}" required>
-              <div
-                      if="${#fields.hasErrors('password')}"
-                      class="text-danger">
+              <input th:field="*{password}"
+                     type="password"
+                     class="form-control"
+                     id="password"  required>
+              <div th:if="${#fields.hasErrors('password')}"
+                   th:class="text-danger">
                 <small errors="*{password}">Password error</small>
               </div>
             </div>
             <div class="mb-3">
               <label for="confirmPassword" class="form-label">Confirm Password</label>
-              <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+              <input
+                      type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
             </div>
             <div class="d-grid">
               <button type="submit" class="btn btn-primary">Register</button>

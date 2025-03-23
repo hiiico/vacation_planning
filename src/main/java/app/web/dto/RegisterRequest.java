@@ -26,6 +26,5 @@ public class RegisterRequest {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @NotNull
     private Department department;
 }
