@@ -18,14 +18,16 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link" href="/login">Login</a>
+          <a th:href="@{/login}"
+             class="nav-link">Login</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/register">Register</a>
+          <a th:href="@{/register}"
+             class="nav-link">Register</a>
         </li>
-        <li class="nav-item">
+     <!--   <li class="nav-item">
           <a class="nav-link" href="/vacation">Plan Vacation</a>
-        </li>
+        </li> -->
       </ul>
     </div>
   </div>
@@ -36,7 +38,7 @@
   <div class="container">
     <h1 class="display-4">Welcome to Vacation Planner</h1>
     <p class="lead">Plan your dream vacation with ease. Explore destinations, book activities, and create unforgettable memories.</p>
-    <a href="/register" class="btn btn-light btn-lg">Get Started</a>
+    <a th:href="@{/register}" class="btn btn-light btn-lg">Get Started</a>
   </div>
 </header>
 

@@ -34,23 +34,26 @@
                     <h3>Login</h3>
                 </div>
                 <div class="card-body">
-                    <!-- Display error message if login fails -->
-                    <div th:if="${param.error}" class="alert alert-danger">
-                        Invalid username or password.
-                    </div>
-                    <!-- Display logout message if user logs out -->
-                    <div th:if="${param.logout}" class="alert alert-success">
-                        You have been logged out successfully.
-                    </div>
-                    <form th:action="@{/login}" method="post">
+                    <form th:action="@{/login}"
+                          th:method="POST"
+                          th:object="${loginRequest}">
                         <div class="mb-3">
                             <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="username" name="username" required>
+                            <input th:field="*{username}"
+                                   type="text"
+                                   class="form-control"
+                                   id="username"
+                                   name="username" required>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
+                            <input th:field="*{password}"
+                                   type="password"
+                                   class="form-control"
+                                   id="password"
+                                   name="password" required>
                         </div>
+                        <p th:if="${errorMessage}" th:text="${errorMessage}" class="alert alert-danger"></p>
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary">Login</button>
                         </div>
@@ -67,7 +70,7 @@
 <!-- Footer -->
 <footer class="footer bg-dark text-white text-center py-3 mt-5">
     <div class="container">
-        <p>&copy; 2023 Vacation Planner. All rights reserved.</p>
+        <p>&copy; 2025 Vacation Planner. All rights reserved.</p>
     </div>
 </footer>
 

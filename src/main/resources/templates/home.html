@@ -17,14 +17,31 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
+
+                <li th:if="${user.role.name() == 'ADMIN'}"
+                    class="nav-item">
+                    <a th:href="@{/users}"
+                       class="nav-link">Admin</a>
+                </li>
+
+                <li href="@{/vacations}"
+                    class="nav-item">
+                    <a href="/vacations-list"
+                       class="nav-link">Reports</a>
+                </li>
+
                 <li class="nav-item">
-                    <a class="nav-link" href="/vacation">Plan Vacation</a>
+                    <a href="/vacations-create"
+                       class="nav-link">Plan Vacation</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/profile">Profile</a>
+                    <a th:href="@{'/users/' + ${user.id} + '/profile'}"
+                       class="nav-link" >Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/logout">Logout</a>
+                    <a th:href="@{/logout}"
+                       class="nav-link"
+                       >Logout</a>
                 </li>
             </ul>
         </div>
@@ -49,17 +66,17 @@
                     <h3>Upcoming Vacations</h3>
                 </div>
                 <div class="card-body">
-                    <div th:if="${vacations.empty}" class="alert alert-info">
-                        You have no upcoming vacations. <a th:href="@{/vacation}">Plan one now!</a>
+                    <div if="${vacations.empty}" class="alert alert-info">
+                        You have no upcoming vacations. <a href="@{/vacation}">Plan one now!</a>
                     </div>
-                    <div th:each="vacation : ${vacations}" class="mb-3">
-                        <h5 th:text="${vacation.destination.name}">Destination Name</h5>
+                    <div each="vacation : ${vacations}" class="mb-3">
+                        <h5 text="${vacation.destination.name}">Destination Name</h5>
                         <p>
                             <strong>Dates:</strong>
-                            <span th:text="${#temporals.format(vacation.startDate, 'MMM dd, yyyy')}">Start Date</span> -
-                            <span th:text="${#temporals.format(vacation.endDate, 'MMM dd, yyyy')}">End Date</span>
+                            <span text="${#temporals.format(vacation.startDate, 'MMM dd, yyyy')}">Start Date</span> -
+                            <span text="${#temporals.format(vacation.endDate, 'MMM dd, yyyy')}">End Date</span>
                         </p>
-                        <a th:href="@{/vacation/details/{id}(id=${vacation.id})}" class="btn btn-primary btn-sm">View Details</a>
+                        <a href="@{/vacation/details/{id}(id=${vacation.id})}" class="btn btn-primary btn-sm">View Details</a>
                     </div>
                 </div>
             </div>
@@ -84,7 +101,7 @@
 <!-- Footer -->
 <footer class="footer bg-dark text-white text-center py-3 mt-5">
     <div class="container">
-        <p>&copy; 2023 Vacation Planner. All rights reserved.</p>
+        <p>&copy; 2025 Vacation Planner. All rights reserved.</p>
     </div>
 </footer>
 

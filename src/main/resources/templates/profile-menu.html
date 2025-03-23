@@ -18,10 +18,10 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link" href="/home">Home</a>
+          <a class="nav-link" th:href="@{/home}">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/logout">Logout</a>
+          <a class="nav-link" th:href="@{/logout}">Logout</a>
         </li>
       </ul>
     </div>
@@ -37,14 +37,14 @@
         <div class="card-body">
           <h3>User Information</h3>
           <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
-          <p><strong>Department:</strong> <span th:text="${user.department != null ? user.department.name : 'N/A'}"></span></p>
+          <p><strong>Department:</strong> <span text="${user.department != null ? user.department.name : 'N/A'}"></span></p>
         </div>
       </div>
 
       <!-- Contracts Section -->
-      <div class="mt-5">
+      <div class="mt-5" th:if="${user.role.name() == 'ADMIN'}">
         <h2>Contracts</h2>
-        <a th:href="@{/contracts/create/{userId}(userId=${user.id})}" class="btn btn-primary mb-3">Add Contract</a>
+        <a href="@{/contracts/create/{userId}(userId=${user.id})}" class="btn btn-primary mb-3">Add Contract</a>
         <table class="table">
           <thead>
           <tr>
@@ -55,12 +55,12 @@
           </tr>
           </thead>
           <tbody>
-          <tr th:each="contract : ${user.contracts}">
-            <td th:text="${contract.contractType}"></td>
-            <td th:text="${#temporals.format(contract.startDate, 'MMM dd, yyyy')}"></td>
-            <td th:text="${#temporals.format(contract.endDate, 'MMM dd, yyyy')}"></td>
+          <tr each="contract : ${user.contracts}">
+            <td text="${contract.contractType}"></td>
+            <td text="${#temporals.format(contract.startDate, 'MMM dd, yyyy')}"></td>
+            <td text="${#temporals.format(contract.endDate, 'MMM dd, yyyy')}"></td>
             <td>
-              <a th:href="@{/contracts/delete/{id}(id=${contract.id})}" class="btn btn-danger btn-sm">Delete</a>
+              <a href="@{/contracts/delete/{id}(id=${contract.id})}" class="btn btn-danger btn-sm">Delete</a>
             </td>
           </tr>
           </tbody>
@@ -70,19 +70,19 @@
       <!-- Vacations Section -->
       <div class="mt-5">
         <h2>Upcoming Vacations</h2>
-        <a th:href="@{/vacations/create/{userId}(userId=${user.id})}" class="btn btn-primary mb-3">Plan a New Vacation</a>
-        <div th:if="${user.vacations.empty}" class="alert alert-info">
-          You have no upcoming vacations. <a th:href="@{/vacation}">Plan one now!</a>
+        <a href="@{/vacations/create/{userId}(userId=${user.id})}" class="btn btn-primary mb-3">Plan a New Vacation</a>
+        <div if="${user.vacations.empty}" class="alert alert-info">
+          You have no upcoming vacations. <a href="@{/vacation}">Plan one now!</a>
         </div>
-        <div th:each="vacation : ${user.vacations}" class="card mb-3">
+        <div each="vacation : ${user.vacations}" class="card mb-3">
           <div class="card-body">
-            <h5 th:text="${vacation.destination.name}">Destination Name</h5>
+            <h5 text="${vacation.destination.name}">Destination Name</h5>
             <p>
               <strong>Dates:</strong>
-              <span th:text="${#temporals.format(vacation.startDate, 'MMM dd, yyyy')}">Start Date</span> -
-              <span th:text="${#temporals.format(vacation.endDate, 'MMM dd, yyyy')}">End Date</span>
+              <span text="${#temporals.format(vacation.startDate, 'MMM dd, yyyy')}">Start Date</span> -
+              <span text="${#temporals.format(vacation.endDate, 'MMM dd, yyyy')}">End Date</span>
             </p>
-            <a th:href="@{/vacation/details/{id}(id=${vacation.id})}" class="btn btn-primary btn-sm">View Details</a>
+            <a href="@{/vacation/details/{id}(id=${vacation.id})}" class="btn btn-primary btn-sm">View Details</a>
           </div>
         </div>
       </div>
@@ -107,7 +107,7 @@
 <!-- Footer -->
 <footer class="footer bg-dark text-white text-center py-3 mt-5">
   <div class="container">
-    <p>&copy; 2023 Vacation Planner. All rights reserved.</p>
+    <p>&copy; 2025 Vacation Planner. All rights reserved.</p>
   </div>
 </footer>
 
