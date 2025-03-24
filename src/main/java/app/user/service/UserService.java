@@ -105,7 +105,7 @@ public class UserService implements UserDetailsService {
 
         User user = getById(id);
         if(user.getRole() == UserRole.USER) {
-            user.setRole(UserRole.ADMIN);
+            user.setRole(UserRole.MANAGER);
         } else {
             user.setRole(UserRole.USER);
         }
