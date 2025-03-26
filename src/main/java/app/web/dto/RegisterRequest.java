@@ -1,9 +1,6 @@
 package app.web.dto;
 
-import app.department.model.Department;
-import app.user.model.UserRole;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import app.user.model.Country;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -23,9 +20,6 @@ public class RegisterRequest {
     @Size(min = 6, message = "password must be at least 6 symbols")
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private UserRole role;
-
     @NotNull
-    private Department department;
+    private Country country;
 }

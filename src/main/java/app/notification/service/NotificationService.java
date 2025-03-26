@@ -20,12 +20,6 @@ public class NotificationService {
         this.notificationClient = notificationClient;
     }
 
-//    @Async
-//    @EventListener
-//    public void sendEmailWhenChargeHappen(PaymentNotificationEvent event) {
-//        System.out.printf("Thread [%s]: Charge happened for user with id [%s]", Thread.currentThread(), event.getUserId());
-//    }
-
     public void saveNotificationPreference(UUID userid, boolean isEmailEnabled, String email) {
 
         UpsertNotificationPreference notificationPreference =
@@ -41,7 +35,7 @@ public class NotificationService {
 
         if (!httpResponse.getStatusCode().is2xxSuccessful()) {
             log.error(
-                    "[Feign call to notification-src failed] Can't save user preference for user with id = [%s]"
+                    "[Feign call to vacation-planning-notification failed] Can't save user preference for user with id = [%s]"
                             .formatted(userid));
         }
     }

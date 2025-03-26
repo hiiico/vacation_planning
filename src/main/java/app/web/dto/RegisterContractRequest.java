@@ -17,7 +17,7 @@ import java.time.LocalDate;
 public class RegisterContractRequest {
 
     @NotNull
-    private User employee;
+    private User user;
 
     @NotNull
     private User manager;

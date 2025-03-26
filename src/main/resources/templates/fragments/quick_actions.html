@@ -1,0 +1,17 @@
+<div class="col-md-4">
+  <div class="card shadow">
+    <div class="card-header bg-primary text-white">
+      <h3>Quick Actions</h3>
+    </div>
+    <br>
+    <a th:if="${user.role.name() == 'MANAGER'}"
+       href="/vacation" class="btn btn-primary btn-block mb-3">Confirm request</a>
+    <a th:if="${user.role.name() == 'ADMIN'}"
+       href="/destinations" class="btn btn-secondary btn-block mb-3">Edit request</a>
+    <a th:if="${user.role.name() == 'USER'}"
+       href="/destinations" class="btn btn-secondary btn-block mb-3">Create request</a>
+    <a th:if="${user.role.name() == 'ADMIN'}"
+       href="/users" class="btn btn-secondary btn-block mb-3">View Users</a>
+  </div>
+</div>
+

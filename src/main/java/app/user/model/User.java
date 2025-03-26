@@ -1,13 +1,11 @@
 package app.user.model;
 
-import app.contract.model.Contract;
 import app.department.model.Department;
 import app.vacation.model.Vacation;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -42,15 +40,30 @@ public class User {
     @Column(nullable = false)
     private UserRole role;
 
-    @ManyToOne
-    private Department department;
-
-    @OneToMany
-    private List<Vacation> vacations = new ArrayList<>();
-
-    @OneToOne
-    private Contract contract;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Country country;
 
     private boolean isActive;
 
+    @Column(nullable = false)
+    private LocalDateTime createdOn;
+
+    @Column(nullable = false)
+    private LocalDateTime updatedOn;
+
+    @OneToMany
+    private List<Vacation> vacations;
+
+    @OneToOne
+    private Department department;
+
+    public List<Vacation> getVacations() {
+        //TODO
+        return null;
+    }
+
+    public void setDepartment(Department department) {
+        //TODO
+    }
 }

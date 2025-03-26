@@ -28,7 +28,7 @@ public class Department {
     @Column(nullable = false)
     private DepartmentType type;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "username")
+    @OneToMany
     private List<User> users = new ArrayList<>();
 
     @OneToOne

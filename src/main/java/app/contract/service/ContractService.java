@@ -38,10 +38,10 @@ public class ContractService {
     private Contract initilizeContract(User user, Department department) {
 
         return Contract.builder()
+                .type(ContractType.TEMPORARY)
                 .user(user)
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusMonths(6))
-                .type(ContractType.TEMPORARY)
                 .renewalAllowed(false)
                 .active(true)
                 .build();
