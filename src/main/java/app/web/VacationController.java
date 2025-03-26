@@ -34,7 +34,7 @@ public class VacationController {
 
     @PostMapping("/create/{userId}")
     public String createVacation(@PathVariable UUID userId, @ModelAttribute Vacation vacation) {
-        vacationService.createVacation(userId, vacation.getDestination().getId(), vacation);
+        vacationService.createVacation(userId, vacation);
         return "redirect:/vacations/user/" + userId;
     }
 

@@ -41,6 +41,7 @@ body {
 /* Features Section */
 .features-section {
     background-color: #f8f9fa;
+    border-radius: 4px;
 }
 
 .feature-item {

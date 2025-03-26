@@ -52,7 +52,7 @@ public class UserService implements UserDetailsService {
 
         User user = userRepository.save(initializeUser(registerRequest));
 
-     //   notificationService.saveNotificationPreference(user.getId(), false, null);
+        notificationService.saveNotificationPreference(user.getId(), false, null);
 
         log.info("Successfully created new user account for username [%s] and id [%s]"
                 .formatted(registerRequest.getUsername(), user.getId()));

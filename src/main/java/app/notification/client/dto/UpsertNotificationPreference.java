@@ -1,4 +1,4 @@
-package app.notification.employee.dto;
+package app.notification.client.dto;
 
 import lombok.Builder;
 import lombok.Data;

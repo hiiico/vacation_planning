@@ -1,13 +1,15 @@
 package app.notification.service;
 
-import app.notification.employee.NotificationClient;
-import app.notification.employee.dto.NotificationPreference;
-import app.notification.employee.dto.UpsertNotificationPreference;
+import app.notification.client.NotificationClient;
+import app.notification.client.dto.Notification;
+import app.notification.client.dto.NotificationPreference;
+import app.notification.client.dto.UpsertNotificationPreference;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -48,6 +50,11 @@ public class NotificationService {
         throw new RuntimeException(
                 "Notification preference for user id [%s] doesn't exist.".formatted(userId));
     }
+    return httpResponse.getBody();
+    }
+
+    public List<Notification> getNotificationHistory(UUID userId) {
+    ResponseEntity<List<Notification>> httpResponse = notificationClient.getNotificationHistory(userId);
     return httpResponse.getBody();
     }
 }

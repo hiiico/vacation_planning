@@ -1,6 +1,5 @@
 package app.vacation.model;
 
-import app.destination.model.Destination;
 import app.user.model.User;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -24,17 +23,11 @@ public class Vacation {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "destination_id", nullable = false)
-    private Destination destination;
 
     public void setUser(User user) {
         this.user = user;
         user.getVacations().add(this);
     }
 
-    public void setDestination(Destination destination) {
-        this.destination = destination;
-        destination.getVacations().add(this);
-    }
+
 }
