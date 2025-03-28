@@ -1,5 +1,6 @@
 package app.web;
 
+import app.exception.UsernameAlreadyExist;
 import app.security.AuthenticationDetails;
 import app.user.model.User;
 import app.user.service.UserService;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -76,6 +78,15 @@ public class IndexController {
         mnv.addObject("user", user);
 
         return mnv;
+    }
+
+    @ExceptionHandler(UsernameAlreadyExist.class)
+    public ModelAndView handelUsernameAlreadyExist() {
+
+    ModelAndView mnv = new ModelAndView();
+    mnv.setViewName("username-exist");
+
+    return mnv;
     }
 
 }

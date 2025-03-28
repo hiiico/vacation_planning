@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home - Vacation Planner</title>
+  <title>Users - Vacation Planner</title>
   <link rel="stylesheet" th:href="@{/css/styles.css}">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -25,90 +25,88 @@
     </div>
   </div>
 </nav>
-<!--    <div class="col-md-12">-->
-<!--      <div class="card shadow">-->
+
+
 <!--        <div class="card-body">-->
-<!--<div class="container mt-5">-->
+<div class="container mt-5">
 <!--  <div class="row">-->
-    <div class="col-md-12">
-      <div class="card shadow">
+<!--      <div class="card shadow">-->
+<div class="col-md-12">
         <div class="card-body">
-
-<table class="table-container">
-  <thead>
-  <tr>
-    <th>Name</th>
-    <th>Family</th>
-    <th>Email</th>
-    <th>Department</th>
-    <th>Contract</th>
-    <th>Created on</th>
-    <th>Employment</th>
-<!--    <th></th>-->
-    <th>Status</th>
-<!--    <th></th>-->
-    <th>Role</th>
-    <th></th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr th:each="user: ${users}">
-    <td th:text="${user.firstName}"></td>
-    <td th:text="${user.lastName}"></td>
-    <td th:text="${#strings.isEmpty(user.email) ? 'no email' : user.email}"></td>
-    <td th:text="${user.department != null ?  #strings.capitalize(#strings.toLowerCase(user.department.type)): 'N/A'}"></td>
-    <td text="${user.contract != null ? user.contract.type : 'N/A'}"></td>
-    <td th:text="${#temporals.format(user.createdOn, 'dd.MM.yyyy HH:mm')}"></td>
-<!--    <td th:text="${user.employment != null ?  #strings.capitalize(#strings.toLowerCase(user.employment)): 'NOT ENGAGED'}"></td>-->
-    <td >
-      <form th:action="@{'/users/' + ${user.id} + '/employment'}"
-            th:method="PUT">
-        <button class="btn btn-info">
-          <p th:text="${user.employment != null ?  #strings.capitalize(#strings.toLowerCase(user.employment)): 'NOT ENGAGED'}"></p>
-<!--          <p>change</p>-->
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="blue"
-               class="bi bi-toggle-on" viewBox="0 0 16 16">
-            <path d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8"></path>
-          </svg>
-        </button>
-      </form>
-    </td>
-<!--    <td>-->
-
-<!--    </td>-->
-    <td>
-      <form th:action="@{'/users/' + ${user.id} + '/status'}"
-            th:method="PUT">
-        <button class="btn btn-info">
-<!--          <p>change</p>-->
-          <p th:if="${user.isActive()}">active</p>
-          <p th:if="${!user.isActive()}">inactive</p>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="blue"
-               class="" viewBox="0 0 16 16">
-            <path d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8"></path>
-          </svg>
-        </button>
-      </form>
-    </td>
-<!--    <td th:text="${#strings.capitalize(#strings.toLowerCase(user.role.name()))}"></td>-->
-    <td>
-      <form th:action="@{'/users/' + ${user.id} + '/role'}"
-            th:method="PUT">
-        <button class="btn btn-info">
-          <p th:text="${#strings.capitalize(#strings.toLowerCase(user.role.name()))}"></p>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="blue"
-               class="" viewBox="0 0 16 16">
-            <path d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8"></path>
-          </svg>
-        </button>
-      </form>
-    </td>
-  </tr>
-  </tbody>
-</table>
+          <table class="styled-table">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>Family</th>
+              <th>Email</th>
+              <th>Department</th>
+              <th>Contract</th>
+              <th>Created on</th>
+              <th>Employment</th>
+              <!--    <th></th>-->
+              <th>Status</th>
+              <!--    <th></th>-->
+              <th>Role</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user: ${users}">
+              <td th:text="${user.firstName}"></td>
+              <td th:text="${user.lastName}"></td>
+              <td th:text="${#strings.isEmpty(user.email) ? 'no email' : user.email}"></td>
+              <td th:text="${user.department != null ?  #strings.capitalize(#strings.toLowerCase(user.department.type)): 'N/A'}"></td>
+              <td text="${user.contract != null ? user.contract.type : 'N/A'}"></td>
+              <td th:text="${#temporals.format(user.createdOn, 'dd.MM.yyyy HH:mm')}"></td>
+              <!--    <td th:text="${user.employment != null ?  #strings.capitalize(#strings.toLowerCase(user.employment)): 'NOT ENGAGED'}"></td>-->
+              <td>
+                <form th:action="@{'/users/' + ${user.id} + '/employment'}"
+                      th:method="PUT">
+                  <button class="btn btn-info">
+                    <span th:text="${user.employment != null ?  #strings.capitalize(#strings.toLowerCase(user.employment)): 'NOT ENGAGED'}"></span>
+                    <!--          <p>change</p>-->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="blue"
+                         class="bi bi-toggle-on" viewBox="0 0 16 16">
+                      <path d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8"></path>
+                    </svg>
+                  </button>
+                </form>
+              </td>
+              <!--    <td>-->
+              <!--    </td>-->
+              <td>
+                <form th:action="@{'/users/' + ${user.id} + '/status'}"
+                      th:method="PUT">
+                  <button class="btn btn-info">
+                    <!--          <p>change</p>-->
+                    <span th:if="${user.isActive()}">active</span>
+                    <span th:if="${!user.isActive()}">inactive</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="blue"
+                         class="" viewBox="0 0 16 16">
+                      <path d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8"></path>
+                    </svg>
+                  </button>
+                </form>
+              </td>
+              <!--    <td th:text="${#strings.capitalize(#strings.toLowerCase(user.role.name()))}"></td>-->
+              <td>
+                <form th:action="@{'/users/' + ${user.id} + '/role'}"
+                      th:method="PUT">
+                  <button class="btn btn-info">
+                    <span th:text="${#strings.capitalize(#strings.toLowerCase(user.role.name()))}"></span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="blue"
+                         class="" viewBox="0 0 16 16">
+                      <path d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8"></path>
+                    </svg>
+                  </button>
+                </form>
+              </td>
+            </tr>
+            </tbody>
+          </table>
         </div>
       </div>
-    </div>
+  </div>
 <!--  </div>-->
 <!--</div>-->
 <!-- Footer -->

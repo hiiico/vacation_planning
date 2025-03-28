@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vacation Planner</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Vacation Planner</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a th:href="@{/login}"
+             class="nav-link">Login</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<header class="hero-section bg-primary text-white text-center py-5">
+  <div class="container">
+    <h1 class="display-4">Welcome to Vacation Planner</h1>
+          <strong>Error code: </strong>
+          <p class="lead">This username is taken, please try another one!</p>
+      <a th:href="@{/register}" class="btn btn-light btn-lg">Go back
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 7H14C17.3137 7 20 9.68629 20 13C20 16.3137 17.3137 19 14 19H4M4 7L8 3M4 7L8 11" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </a>
+  </div>
+</header>
+<!-- Features Section -->
+<section class="features-section py-4">
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-md-4">
+        <div class="feature-item p-4">
+          <h3>Submit it online.</h3>
+          <p>Creation and approval of a leave request.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-item p-3">
+          <h3>Change the leave request.</h3>
+          <p>Create a personalized employee vacation plan.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-item p-4">
+          <h3>Manage workflows.</h3>
+          <p>Make a reference to the employees who have applied for leave.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<header th:replace="~{fragments/footer}"></header>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

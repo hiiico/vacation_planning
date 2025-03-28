@@ -1,6 +1,7 @@
 package app.user.service;
 
 import app.exception.DomainException;
+import app.exception.UsernameAlreadyExist;
 import app.notification.service.NotificationService;
 import app.security.AuthenticationDetails;
 import app.user.model.Employment;
@@ -48,7 +49,7 @@ public class UserService implements UserDetailsService {
         Optional<User> userOptional = userRepository.findByUsername(registerRequest.getUsername());
 
         if(userOptional.isPresent()) {
-            throw new DomainException("Username [%s] already exist.".formatted(registerRequest.getUsername()));
+            throw new UsernameAlreadyExist("Username [%s] already exist.".formatted(registerRequest.getUsername()));
         }
 
         User user = userRepository.save(initializeUser(registerRequest));
