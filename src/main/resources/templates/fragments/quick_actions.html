@@ -1,4 +1,4 @@
-<div class="col-md-4">
+<div class="col-md-6">
   <div class="card shadow">
     <div class="card-header bg-primary text-white">
       <h3>Quick Actions</h3>
@@ -7,11 +7,12 @@
     <a th:if="${user.role.name() == 'MANAGER'}"
        href="/vacation" class="btn btn-primary btn-block mb-3">Confirm request</a>
     <a th:if="${user.role.name() == 'ADMIN'}"
-       href="/destinations" class="btn btn-secondary btn-block mb-3">Edit request</a>
-    <a th:if="${user.role.name() == 'USER'}"
        href="/destinations" class="btn btn-secondary btn-block mb-3">Create request</a>
+    <a th:if="${user.role.name() == 'USER' or user.role.name() == 'ADMIN'}"
+       href="/destinations" class="btn btn-secondary btn-block mb-3">Change request</a>
     <a th:if="${user.role.name() == 'ADMIN'}"
        href="/users" class="btn btn-secondary btn-block mb-3">View Users</a>
+    <a th:href="${user.role.name() == 'ADMIN'}" class="btn btn-primary mb-3">Add Contract</a>
   </div>
 </div>
 
