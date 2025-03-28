@@ -31,135 +31,129 @@
 <!-- Profile Section -->
 <div class="container mt-5">
   <div class="row">
-    <div class="col-md-8">
-      <h1>Profile</h1>
+
+    <div class="col-md-4">
       <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+          <h3>Profile</h3>
+        </div>
         <div class="card-body">
           <h3>User Information</h3>
-
-          <div class="profile-header">
-            <img th:src="${#strings.isEmpty(user.profilePicture) ? '/images/avatar.jpg' : user.profilePicture}" class="profile-avatar" alt="">
-          </div>
-          <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
-          <p><strong>Department:</strong> <span th:text="${user.department != null ? user.department.name : 'N/A'}"></span></p>
-
+<!--          <div class="profile-header">-->
+<!--            <img th:src="${#strings.isEmpty(user.profilePicture) ? '/images/avatar.jpg' : user.profilePicture}" class="profile-avatar" alt="">-->
+<!--          </div>-->
+<!--          <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>-->
+<!--          <p><strong>Department:</strong> <span th:text="${user.department != null ? user.department.name : 'N/A'}"></span></p>-->
 
           <form th:action="@{'/users/' + ${user.id} + '/profile'}"
                 th:method="PUT"
                 th:object="${userEditRequest}"
                 class="">
             <div class="mb-3">
-            <label for="firstName">First Name</label>
-            <input th:field="*{firstName}"
-                   type="text"
-                   id="firstName"
-                   class="form-control"
-                   placeholder="First Name">
-            <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="alert alert-danger"></p>
-              </div>
+              <label for="firstName">First Name</label>
+              <input th:field="*{firstName}"
+                     type="text"
+                     id="firstName"
+                     class="form-control"
+                     placeholder="First Name">
+              <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="alert alert-danger"></p>
+            </div>
             <div class="mb-3">
               <label for="lastName">Last Name</label>
-            <input th:field="*{lastName}"
-                   type="text"
-                   id="lastName"
-                   class="form-control"
-                   placeholder="Last Name">
-            <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="alert alert-danger"></p>
+              <input th:field="*{lastName}"
+                     type="text"
+                     id="lastName"
+                     class="form-control"
+                     placeholder="Last Name">
+              <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="alert alert-danger"></p>
             </div>
             <div class="mb-3">
               <label for="email">Email</label>
-            <input th:field="*{email}"
-                   type="text"
-                   id="email"
-                   class="form-control"
-                   placeholder="Email Address">
-            <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert alert-danger"></p>
+              <input th:field="*{email}"
+                     type="text"
+                     id="email"
+                     class="form-control"
+                     placeholder="Email Address">
+              <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert alert-danger"></p>
             </div>
             <div class="mb-3">
-            <label for="profilePicture">Profile Picture URL</label>
-            <input th:field="*{profilePicture}"
-                   type="text"
-                   id="profilePicture"
-                   class="form-control"
-                   placeholder="Image Link">
-            <p th:if="${#fields.hasErrors('profilePicture')}" th:errors="*{profilePicture}" class="alert alert-danger"></p>
+              <label for="profilePicture">Profile Picture URL</label>
+              <input th:field="*{profilePicture}"
+                     type="text"
+                     id="profilePicture"
+                     class="form-control"
+                     placeholder="Image Link">
+              <p th:if="${#fields.hasErrors('profilePicture')}" th:errors="*{profilePicture}" class="alert alert-danger"></p>
             </div>
             <div class="d-grid">
               <button type="submit" class="btn btn-primary">Save</button>
             </div>
           </form>
-
-        </div>
-      </div>
-      <!-- Contracts Section -->
-      <div class="mt-5" th:if="${user.role.name() == 'ADMIN'}">
-        <h2>Contracts</h2>
-        <a href="@{/contracts/create/{userId}(userId=${user.id})}" class="btn btn-primary mb-3">Add Contract</a>
-        <table class="table">
-          <thead>
-          <tr>
-            <th>Contract Type</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Actions</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr each="contract : ${user.contracts}">
-            <td text="${contract.contractType}"></td>
-            <td text="${#temporals.format(contract.startDate, 'MMM dd, yyyy')}"></td>
-            <td text="${#temporals.format(contract.endDate, 'MMM dd, yyyy')}"></td>
-            <td>
-              <a href="@{/contracts/delete/{id}(id=${contract.id})}" class="btn btn-danger btn-sm">Delete</a>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Vacations Section -->
-      <div class="mt-5">
-        <h2>Upcoming Vacations</h2>
-        <a href="@{/vacations/create/{userId}(userId=${user.id})}" class="btn btn-primary mb-3">Plan a New Vacation</a>
-        <div if="${user.vacations.empty}" class="alert alert-info">
-          You have no upcoming vacations. <a href="@{/vacation}">Plan one now!</a>
-        </div>
-        <div each="vacation : ${user.vacations}" class="card mb-3">
-          <div class="card-body">
-            <h5 text="${vacation.destination.name}">Destination Name</h5>
-            <p>
-              <strong>Dates:</strong>
-              <span text="${#temporals.format(vacation.startDate, 'MMM dd, yyyy')}">Start Date</span> -
-              <span text="${#temporals.format(vacation.endDate, 'MMM dd, yyyy')}">End Date</span>
-            </p>
-            <a href="@{/vacation/details/{id}(id=${vacation.id})}" class="btn btn-primary btn-sm">View Details</a>
-          </div>
         </div>
       </div>
     </div>
 
-    <!-- Sidebar for Quick Actions -->
-    <div class="col-md-4">
-      <div class="card shadow">
-        <div class="card-header bg-primary text-white">
-          <h3>Quick Actions</h3>
-        </div>
+    <!-- Contracts Section -->
+    <div class="col-md-8">
+
+      <h3>Contract</h3>
+      <div class="card-shadow">
         <div class="card-body">
-          <a href="/vacation" class="btn btn-primary btn-block mb-3">Plan a New Vacation</a>
-          <a href="/destinations" class="btn btn-secondary btn-block mb-3">Explore Destinations</a>
-          <a href="/profile/edit" class="btn btn-secondary btn-block mb-3">Edit Profile</a>
+          <table class="table-container">
+            <thead>
+            <tr>
+              <th>Contract Type</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr each="contract : ${user.contracts}">
+              <td text="${contract.contractType}"></td>
+              <td text="${#temporals.format(contract.startDate, 'MMM dd, yyyy')}"></td>
+              <td text="${#temporals.format(contract.endDate, 'MMM dd, yyyy')}"></td>
+              <td>
+                <a href="@{/contracts/delete/{id}(id=${contract.id})}" class="btn btn-danger btn-sm">Delete</a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
         </div>
       </div>
+      <!-- Vacations Section -->
+      <div class="container mt-5">
+        <div class="row">
+
+          <div class="col-md-8">
+            <div class="card shadow">
+              <div class="card-header bg-primary text-white">
+                <h3>Upcoming Vacations</h3>
+              </div>
+              <div if="${user.vacation.empty}" class="alert alert-info">
+                You have no upcoming vacations. <a href="@{/vacation}">Plan one now!</a>
+              </div>
+              <div class="card-body">
+                <div each="vacation : ${user.vacations}" class="card mb-3">
+                  <div unless="" ></div>
+                </div>
+              </div>
+            </div>
+        </div>
+
+      <!-- Sidebar for Quick Actions -->
+      <header th:replace="~{fragments/quick_actions}"></header>
+
+        </div>
+      </div>
+
     </div>
+
   </div>
 </div>
 
 <!-- Footer -->
-<footer class="footer bg-dark text-white text-center py-3 mt-5">
-  <div class="container">
-    <p>&copy; 2025 Vacation Planner. All rights reserved.</p>
-  </div>
-</footer>
+<header th:replace="~{fragments/footer}"></header>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

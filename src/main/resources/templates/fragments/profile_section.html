@@ -1,25 +1,29 @@
-<div class="col-md-8">
+<div class="col-md-6">
     <div class="card shadow">
         <div class="card-header bg-primary text-white">
             <h3>Profile</h3>
         </div>
+
         <div class="card-body">
+            <div class="container mt-3">
+                <div class="row">
 
-            <div th:if="${user.role.name() == 'USER'}"
-                 if="${vacations.empty}" class="alert alert-info">
-                You have no upcoming vacations. <a href="@{/vacation}">Plan one now!</a>
+                    <div class="col-md-6">
+                        <div class="profile-header">
+                            <img th:src="${#strings.isEmpty(user.profilePicture) ? '/images/avatar.jpg' : user.profilePicture}" class="profile-avatar" alt="">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
+                        <p><strong>Department:</strong> <span th:text="${user.department != null ? user.department.name : 'N/A'}"></span></p>
+                        <a th:href="@{'/users/' + ${user.id} + '/profile'}" class="btn btn-primary btn-sm">Edit Details</a>
+                    </div>
+
+                </div>
             </div>
 
-
-            <div each="vacation : ${vacations}" class="mb-3">
-                <h5 text="${vacation.destination.name}">Vacations</h5>
-                <p>
-                    <strong>Dates:</strong>
-                    <span text="${#temporals.format(vacation.startDate, 'MMM dd, yyyy')}">Start Date</span> -
-                    <span text="${#temporals.format(vacation.endDate, 'MMM dd, yyyy')}">End Date</span>
-                </p>
-                <a href="@{/vacation/details/{id}(id=${vacation.id})}" class="btn btn-primary btn-sm">View Details</a>
-            </div>
         </div>
+
     </div>
 </div>

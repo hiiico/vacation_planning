@@ -122,6 +122,12 @@ table tr:hover {
     border-radius: 4px;
 }
 
+.button-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1em;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     table {

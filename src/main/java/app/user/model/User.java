@@ -46,6 +46,9 @@ public class User {
 
     private boolean isActive;
 
+    @Enumerated(EnumType.STRING)
+    private Employment employment;
+
     @Column(nullable = false)
     private LocalDateTime createdOn;
 
@@ -66,4 +69,5 @@ public class User {
     public void setDepartment(Department department) {
         //TODO
     }
+
 }
