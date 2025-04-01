@@ -1,18 +1,64 @@
 <div class="col-md-6">
   <div class="card shadow">
     <div class="card-header bg-primary text-white">
-      <h3>Quick Actions</h3>
+      <h3>Actions</h3>
     </div>
-    <br>
-    <a th:if="${user.role.name() == 'MANAGER'}"
-       href="/vacation" class="btn btn-primary btn-block mb-3">Confirm request</a>
-    <a th:if="${user.role.name() == 'ADMIN'}"
-       href="/destinations" class="btn btn-secondary btn-block mb-3">Create request</a>
-    <a th:if="${user.role.name() == 'USER' or user.role.name() == 'ADMIN'}"
-       href="/destinations" class="btn btn-secondary btn-block mb-3">Change request</a>
-    <a th:if="${user.role.name() == 'ADMIN'}"
-       href="/users" class="btn btn-secondary btn-block mb-3">View Users</a>
-    <a th:href="${user.role.name() == 'ADMIN'}" class="btn btn-primary mb-3">Add Contract</a>
+
+    <section class="features-section py-4">
+      <div class="container">
+
+        <div class="row text-center">
+
+          <div class="col-md-4">
+            <div class="feature-item p-2">
+              <a href="/destinations" class="">Create request</a>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="feature-item p-2">
+              <a href="/destinations">Change request</a>
+            </div>
+          </div>
+
+          <div  th:if="${user.role.name() == 'MANAGER'}" class="col-md-4">
+            <div class="feature-item p-2">
+              <a href="/vacation" class="">Confirm request</a>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row text-center">
+
+          <div  class="col-md-12">
+            <div class="feature-item p-1"><strong>ADMIN</strong>
+            </div>
+          </div>
+
+          <div th:if="${user.role.name() == 'ADMIN'}" class="col-md-4">
+            <div class="feature-item p-2">
+              <a th:href="@{/users}">Users</a>
+            </div>
+          </div>
+
+          <div th:if="${user.role.name() == 'MANAGER'}" class="col-md-4">
+            <div class="feature-item p-2">
+              <a th:href="@{/employees}" class="">Employees</a>
+            </div>
+          </div>
+
+          <div th:if="${user.role.name() == 'ADMIN'}" class="col-md-4">
+            <div class="feature-item p-2">
+              <a th:href="@{/departments}" class="">Departments</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
   </div>
 </div>
+
 

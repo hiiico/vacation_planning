@@ -16,7 +16,6 @@
 
                     <div class="col-md-6">
                         <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
-                        <p><strong>Department:</strong> <span th:text="${user.department != null ? user.department.name : 'N/A'}"></span></p>
                         <a th:href="@{'/users/' + ${user.id} + '/profile'}" class="btn btn-primary btn-sm">Edit Details</a>
                     </div>
 

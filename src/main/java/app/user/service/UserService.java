@@ -1,10 +1,10 @@
 package app.user.service;
 
+import app.employee.service.EmployeeService;
 import app.exception.DomainException;
 import app.exception.UsernameAlreadyExist;
 import app.notification.service.NotificationService;
 import app.security.AuthenticationDetails;
-import app.user.model.Employment;
 import app.user.model.User;
 import app.user.model.UserRole;
 import app.user.repository.UserRepository;
@@ -12,7 +12,6 @@ import app.web.dto.RegisterRequest;
 import app.web.dto.UserEditRequest;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,18 +32,35 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final NotificationService notificationService;
+    private final EmployeeService employeeService;
 
-@Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, NotificationService notificationService) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, NotificationService notificationService, EmployeeService employeeService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.notificationService = notificationService;
+        this.employeeService = employeeService;
     }
 
+    public void registerDefaultUser(RegisterRequest registerRequest) {
+
+        User user = User.builder()
+                .username(registerRequest.getUsername())
+                .password(passwordEncoder.encode(registerRequest.getPassword()))
+                .country(registerRequest.getCountry())
+                .role(UserRole.ADMIN)
+                .isActive(true)
+                .createdOn(LocalDateTime.now())
+                .updatedOn(LocalDateTime.now())
+                .build();
+        userRepository.save(user);
+
+        log.info("Successfully created new user account for username [%s] and id [%s]"
+                .formatted(registerRequest.getUsername(), user.getId()));
+    }
 
     @CacheEvict(value = "users", allEntries = true)
     @Transactional
-    public User register(RegisterRequest registerRequest) {
+    public void register(RegisterRequest registerRequest) {
 
         Optional<User> userOptional = userRepository.findByUsername(registerRequest.getUsername());
 
@@ -56,10 +72,8 @@ public class UserService implements UserDetailsService {
 
         notificationService.saveNotificationPreference(user.getId(), false, null);
 
-
         log.info("Successfully created new user account for username [%s] and id [%s]"
                 .formatted(registerRequest.getUsername(), user.getId()));
-        return user;
     }
 
     @CacheEvict(value = "users", allEntries = true)
@@ -83,15 +97,19 @@ public class UserService implements UserDetailsService {
 
         if(!userEditRequest.getEmail().isBlank()) {
 
-
             notificationService.saveNotificationPreference(user.getId(), true, userEditRequest.getEmail());
 
-            String emailBody = "Hello %s, your contact email %s has been successfully added to the Vacation Planner app."
+            String emailBody = "Hello " + user.getUsername() + "!\nYour password is: admin1234\nLogin: "
                     .formatted(user.getUsername(), user.getEmail());
-            notificationService.sendNotification(user.getId(), "Added email.", emailBody);
+            notificationService.sendNotification(user.getId(), "Successful registration in Vacation planner!", emailBody);
         }
 
         userRepository.save(user);
+
+        if(!user.getFirstName().isBlank() && !user.getLastName().isBlank() && !user.getEmail().isBlank()) {
+            employeeService.createEmployee(user);
+        }
+
     }
 
     private User initializeUser(RegisterRequest registerRequest) {
@@ -100,7 +118,6 @@ public class UserService implements UserDetailsService {
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .role(UserRole.USER)
                 .isActive(true)
-                .employment(null)
                 .country(registerRequest.getCountry())
                 .createdOn(LocalDateTime.now())
                 .updatedOn(LocalDateTime.now())
@@ -116,20 +133,6 @@ public class UserService implements UserDetailsService {
         return userRepository.findById(id)
                 .orElseThrow(() -> new DomainException("User with id [%s] does not exist."));
     }
-
-    @CacheEvict(value = "users", allEntries = true)
-
-    public void switchEmployment(UUID id) {
-
-        User user = getById(id);
-        if(user.getEmployment() == Employment.ENGAGED) {
-            user.setEmployment(Employment.VACATION);
-        } else {
-            user.setEmployment(Employment.ENGAGED);
-        }
-        userRepository.save(user);
-    }
-
 
 @CacheEvict(value = "users", allEntries = true)
     public void switchStatus(UUID id) {
@@ -149,6 +152,7 @@ public class UserService implements UserDetailsService {
             user.setRole(UserRole.USER);
         }
 
+        employeeService.saveEmployeeRole(user);
         userRepository.save(user);
     }
 
@@ -165,6 +169,5 @@ public class UserService implements UserDetailsService {
                 user.getRole(),
                 user.isActive());
     }
-
 
 }

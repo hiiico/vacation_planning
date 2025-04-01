@@ -1,12 +1,8 @@
 package app.user.model;
 
-import app.department.model.Department;
-import app.vacation.model.Vacation;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Builder
@@ -46,28 +42,10 @@ public class User {
 
     private boolean isActive;
 
-    @Enumerated(EnumType.STRING)
-    private Employment employment;
-
     @Column(nullable = false)
     private LocalDateTime createdOn;
 
     @Column(nullable = false)
     private LocalDateTime updatedOn;
-
-    @OneToMany
-    private List<Vacation> vacations;
-
-    @OneToOne
-    private Department department;
-
-    public List<Vacation> getVacations() {
-        //TODO
-        return null;
-    }
-
-    public void setDepartment(Department department) {
-        //TODO
-    }
 
 }

@@ -21,7 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class IndexController {
 
     private final UserService userService;
-@Autowired
+
+    @Autowired
     public IndexController(UserService userService) {
         this.userService = userService;
     }
@@ -38,7 +39,7 @@ public class IndexController {
     mnv.addObject("loginRequest", new LoginRequest());
     mnv.setViewName("login");
 
-    if(errorParam!= null) {
+    if(errorParam != null) {
         mnv.addObject("errorMessage", "Invalid username or password");
     }
 

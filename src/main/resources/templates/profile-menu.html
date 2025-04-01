@@ -39,11 +39,6 @@
         </div>
         <div class="card-body">
           <h3>User Information</h3>
-<!--          <div class="profile-header">-->
-<!--            <img th:src="${#strings.isEmpty(user.profilePicture) ? '/images/avatar.jpg' : user.profilePicture}" class="profile-avatar" alt="">-->
-<!--          </div>-->
-<!--          <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>-->
-<!--          <p><strong>Department:</strong> <span th:text="${user.department != null ? user.department.name : 'N/A'}"></span></p>-->
 
           <form th:action="@{'/users/' + ${user.id} + '/profile'}"
                 th:method="PUT"

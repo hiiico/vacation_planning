@@ -1,10 +1,9 @@
 package app.department.model;
 
-import app.user.model.User;
+import app.employee.model.Employee;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -21,27 +20,17 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private DepartmentType type;
 
-    @OneToMany
-    private List<User> users = new ArrayList<>();
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Employee> employees = new ArrayList<>();
 
     @OneToOne
-    private User manager;
-
-    public void addUser(User user) {
-        users.add(user);
-        user.setDepartment(this);
-    }
-
-    public void removeUser(User user) {
-        users.remove(user);
-        user.setDepartment(null);
-    }
+    private Employee manager;
 
 }
