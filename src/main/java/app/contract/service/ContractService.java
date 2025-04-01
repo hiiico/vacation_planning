@@ -4,6 +4,8 @@ import app.contract.model.Contract;
 import app.contract.model.ContractType;
 import app.contract.repository.ContractRepository;
 import app.department.model.Department;
+import app.employee.model.Employee;
+import app.employee.service.EmployeeService;
 import app.user.model.User;
 import app.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -25,40 +27,26 @@ public class ContractService {
         this.contractRepository = contractRepository;
     }
 
+    public void createContract(Employee employee, Department department) {
 
-    public Contract createDefaultContract(User user, Department department) {
+       contractRepository.save(initilizeContract(employee, department));
 
-        Contract contract = contractRepository.save(initilizeContract(user, department));
 
-        log.info("Successfully created new contract with name [%s] and type [%s]."
-                .formatted(user.getUsername(), department.getType()));
-        return contract;
+        log.info("Successfully created new contract with employee [%s] [%s] in [%s] department."
+                .formatted(employee.getFirstName(), employee.getLastName(), department.getName()));
     }
 
-    private Contract initilizeContract(User user, Department department) {
+    private Contract initilizeContract(Employee employee, Department department) {
 
         return Contract.builder()
                 .type(ContractType.TEMPORARY)
-                .user(user)
+                .employee(employee)
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusMonths(6))
+                .description("New Contract")
                 .renewalAllowed(false)
                 .active(true)
                 .build();
     }
 
-//    public Contract createContract(UUID userId, Contract contract) {
-//        User user = userService.getById(userId);
-//                //.orElseThrow(() -> new RuntimeException("User not found"));
-//        contract.setUser(user);
-//        return contractRepository.save(contract);
-//    }
-
-    public List getContractsByUserId(UUID userId) {
-        return (List) contractRepository.findByUserId(userId);
-    }
-
-    public void deleteContract(UUID id) {
-        contractRepository.deleteById(id);
-    }
 }

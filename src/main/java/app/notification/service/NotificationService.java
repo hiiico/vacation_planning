@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.List;
 import java.util.UUID;
@@ -33,7 +32,6 @@ public class NotificationService {
                         .type("EMAIL")
                         .notificationEnabled(isEmailEnabled)
                         .build();
-//Invoke Fein client and execute HTTP Post Request
         ResponseEntity<Void> httpResponse =
                 notificationClient.upsertNotificationPreferences(notificationPreference);
 

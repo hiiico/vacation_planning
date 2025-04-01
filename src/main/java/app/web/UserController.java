@@ -1,5 +1,6 @@
 package app.web;
 
+import app.exception.CanNotChangeDetails;
 import app.user.model.User;
 import app.user.service.UserService;
 import app.web.dto.UserEditRequest;
@@ -9,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -69,13 +67,6 @@ public class UserController {
         return mnv;
     }
 
-    @PutMapping("/{id}/employment")
-    public String switchUserEmployment(@PathVariable UUID id) {
-
-        userService.switchEmployment(id);
-        return "redirect:/users";
-    }
-
     @PutMapping("/{id}/status")
     public String switchUserProfile(@PathVariable UUID id) {
 
@@ -88,6 +79,15 @@ public class UserController {
 
         userService.switchRole(id);
         return "redirect:/users";
+    }
+
+    @ExceptionHandler(CanNotChangeDetails.class)
+    public ModelAndView handelCanNotChangeDetails() {
+
+        ModelAndView mnv = new ModelAndView();
+        mnv.setViewName("home");
+
+        return mnv;
     }
 
 }

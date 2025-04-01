@@ -1,6 +1,6 @@
 package app.vacation.model;
 
-import app.user.model.User;
+import app.employee.model.Employee;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDate;
@@ -13,21 +13,19 @@ public class Vacation {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @ManyToOne
+    private Employee employee;
+
     @Column(nullable = false)
     private LocalDate startDate;
 
     @Column(nullable = false)
     private LocalDate endDate;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @Enumerated(EnumType.STRING)
+    private AbsencesReason absencesReason;
 
-
-    public void setUser(User user) {
-        this.user = user;
-        user.getVacations().add(this);
-    }
-
+    @Column(nullable = false)
+    private int absenceDays;
 
 }

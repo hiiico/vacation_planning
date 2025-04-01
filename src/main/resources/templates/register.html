@@ -38,6 +38,7 @@
                 <small th:errors="*{username}">Username error</small>
               </div>
             </div>
+
             <div class="mb-3">
               <label for="password" class="form-label">Password</label>
               <input th:field="*{password}"
@@ -59,12 +60,16 @@
               <select th:field="*{country}"
                       id="country"
                       class="form-control">
+                <option value="">-- Select Country --</option>
                 <option th:each="country: ${T(app.user.model.Country).values()}"
                         th:value="${country}"
                         th:text="${#strings.capitalize(#strings.toLowerCase(country))}">
                 </option>
               </select>
-
+              <div th:if="${#fields.hasErrors('country')}"
+                   th:class="text-danger">
+                <small th:errors="*{country}">Password error</small>
+              </div>
             </div>
 
             <div class="d-grid">

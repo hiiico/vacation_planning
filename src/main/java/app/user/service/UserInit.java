@@ -22,12 +22,14 @@ public class UserInit implements CommandLineRunner {
         if (!userService.getAllUser().isEmpty()) {
             return;
         }
+
         RegisterRequest registerRequest = RegisterRequest.builder()
-                .username("H.Ivanov")
-                .password("Hristo1972")
+                .username("administrator")
+                .password("admin1234")
                 .country(Country.GERMANY)
                 .build();
-        userService.register(registerRequest);
+        userService.registerDefaultUser(registerRequest);
+
     }
 
 }

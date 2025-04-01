@@ -1,8 +1,8 @@
 package app.web.dto;
 
 import app.department.model.DepartmentType;
+import app.employee.model.Employee;
 import app.user.model.User;
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,11 +16,11 @@ import java.util.List;
 @NoArgsConstructor
 public class RegisterDepartmentRequest {
 
-    @Column(nullable = false)
-    private DepartmentType name;
+    private String name;
 
-    @Column(nullable = false)
-    private User manager;
+    private Employee manager;
+
+    private DepartmentType type;
 
     private List<User> employees;
 }

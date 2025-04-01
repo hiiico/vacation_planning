@@ -3,70 +3,68 @@ package app.department.service;
 import app.department.model.Department;
 import app.department.model.DepartmentType;
 import app.department.repository.DepartmentRepository;
-import app.user.model.User;
+import app.employee.service.EmployeeService;
+import app.web.dto.RegisterDepartmentRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @Slf4j
 @Service
 public class DepartmentService {
 
     private final DepartmentRepository departmentRepository;
+    private final EmployeeService employeeService;
 
     @Autowired
-    public DepartmentService(DepartmentRepository departmentRepository) {
+    public DepartmentService(DepartmentRepository departmentRepository, EmployeeService employeeService) {
         this.departmentRepository = departmentRepository;
+
+        this.employeeService = employeeService;
     }
 
-    public Department createDepartment(User user) {
+    public List<String> getAllDepartmentsTypes() {
 
-        Department department = departmentRepository.save(initilizeDepartment(user));
-        log.info("Successfully created new department with name [%s] and type [%s]."
-                .formatted(department.getName(), department.getType()));
-        return department;
+        List<Department> departments = departmentRepository.findAll();
+        List<String> types = new ArrayList<>(Arrays.stream(DepartmentType.values()).map(DepartmentType::toString).toList());
+        List<String> newTypes = new ArrayList<>();
+
+        for (String type : types) {
+
+            for(Department department: departments) {
+                if (!String.valueOf(department.getType()).equals(type)) {
+                    newTypes.add(type);
+                }
+            }
+
+        }
+
+        return newTypes;
     }
 
-    private Department initilizeDepartment(User user) {
+    public void register(RegisterDepartmentRequest registerDepartmentRequest) {
 
+        Department department = initializeDepartment(registerDepartmentRequest);
+        departmentRepository.save(department);
+        employeeService.setDepartment(department, department.getManager().getEmployeeId());
+
+        log.info("Successfully created new department with name [%s]."
+                .formatted(registerDepartmentRequest.getName()));
+    }
+
+    private Department initializeDepartment(RegisterDepartmentRequest registerDepartmentRequest) {
         return Department.builder()
-                .name("HR")
-                .type(DepartmentType.MANAGEMENT)
-                .manager(user)
+                .name(registerDepartmentRequest.getName())
+                .manager(registerDepartmentRequest.getManager())
+                .type(registerDepartmentRequest.getType())
                 .build();
-    }
-
-    public Department createDepartment(String name) {
-        Department department = new Department();
-        department.setName(name);
-        return departmentRepository.save(department);
     }
 
     public List<Department> getAllDepartments() {
         return departmentRepository.findAll();
-    }
-
-    public Optional<Department> getDepartmentById(UUID id) {
-        return departmentRepository.findById(id);
-    }
-
-    public void deleteDepartment(UUID id) {
-        departmentRepository.deleteById(id);
-    }
-
-    public Department createDefaultDepartment(User user) {
-
-        Department defaultDepartment = Department.builder()
-                .name("departmental_distribution")
-                .type(DepartmentType.DISTRIBUTION)
-                .manager(user)
-                .build();
-
-        return departmentRepository.save(defaultDepartment);
     }
 }

@@ -1,6 +1,7 @@
 package app.contract.model;
 
 import app.department.model.Department;
+import app.employee.model.Employee;
 import app.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -25,7 +26,7 @@ public class Contract {
     private ContractType type;
 
     @OneToOne
-    private User user;
+    private Employee employee;
 
     @Column(nullable = false)
     private LocalDate startDate;
@@ -33,6 +34,13 @@ public class Contract {
     @Column(nullable = false)
     private LocalDate endDate;
 
+    @Column(nullable = false)
+    private String description;
+
+    @Column(nullable = false)
+    private int leaveDays;
+
+    @Column(nullable = false)
     boolean renewalAllowed;
 
     boolean active;

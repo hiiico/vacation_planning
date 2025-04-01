@@ -26,59 +26,35 @@
   </div>
 </nav>
 
-
-<!--        <div class="card-body">-->
 <div class="container mt-5">
-<!--  <div class="row">-->
-<!--      <div class="card shadow">-->
-<div class="col-md-12">
+  <div class="col-md-12"><strong>Users administration</strong>
         <div class="card-body">
           <table class="styled-table">
             <thead>
             <tr>
-              <th>Name</th>
-              <th>Family</th>
+              <th>Username</th>
+              <th>F name</th>
+              <th>L name</th>
               <th>Email</th>
-              <th>Department</th>
-              <th>Contract</th>
               <th>Created on</th>
-              <th>Employment</th>
-              <!--    <th></th>-->
+              <th>Updated on</th>
               <th>Status</th>
-              <!--    <th></th>-->
               <th>Role</th>
-              <th></th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="user: ${users}">
+              <td th:text="${user.username}"></td>
               <td th:text="${user.firstName}"></td>
               <td th:text="${user.lastName}"></td>
               <td th:text="${#strings.isEmpty(user.email) ? 'no email' : user.email}"></td>
-              <td th:text="${user.department != null ?  #strings.capitalize(#strings.toLowerCase(user.department.type)): 'N/A'}"></td>
-              <td text="${user.contract != null ? user.contract.type : 'N/A'}"></td>
               <td th:text="${#temporals.format(user.createdOn, 'dd.MM.yyyy HH:mm')}"></td>
-              <!--    <td th:text="${user.employment != null ?  #strings.capitalize(#strings.toLowerCase(user.employment)): 'NOT ENGAGED'}"></td>-->
-              <td>
-                <form th:action="@{'/users/' + ${user.id} + '/employment'}"
-                      th:method="PUT">
-                  <button class="btn btn-info">
-                    <span th:text="${user.employment != null ?  #strings.capitalize(#strings.toLowerCase(user.employment)): 'NOT ENGAGED'}"></span>
-                    <!--          <p>change</p>-->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="blue"
-                         class="bi bi-toggle-on" viewBox="0 0 16 16">
-                      <path d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8"></path>
-                    </svg>
-                  </button>
-                </form>
-              </td>
-              <!--    <td>-->
-              <!--    </td>-->
+              <td th:text="${#temporals.format(user.updatedOn, 'dd.MM.yyyy HH:mm')}"></td>
               <td>
                 <form th:action="@{'/users/' + ${user.id} + '/status'}"
                       th:method="PUT">
-                  <button class="btn btn-info">
-                    <!--          <p>change</p>-->
+                  <button th:if="${user.role.name() != 'ADMIN'}"
+                          class="btn btn-info">
                     <span th:if="${user.isActive()}">active</span>
                     <span th:if="${!user.isActive()}">inactive</span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="blue"
@@ -88,11 +64,10 @@
                   </button>
                 </form>
               </td>
-              <!--    <td th:text="${#strings.capitalize(#strings.toLowerCase(user.role.name()))}"></td>-->
               <td>
                 <form th:action="@{'/users/' + ${user.id} + '/role'}"
                       th:method="PUT">
-                  <button class="btn btn-info">
+                  <button th:if="${user.role.name() != 'ADMIN'}" class="btn btn-info">
                     <span th:text="${#strings.capitalize(#strings.toLowerCase(user.role.name()))}"></span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="blue"
                          class="" viewBox="0 0 16 16">
@@ -107,8 +82,6 @@
         </div>
       </div>
   </div>
-<!--  </div>-->
-<!--</div>-->
 <!-- Footer -->
 <header th:replace="~{fragments/footer}"></header>
 
