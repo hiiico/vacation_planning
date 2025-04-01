@@ -53,6 +53,19 @@
               <a th:href="@{/departments}" class="">Departments</a>
             </div>
           </div>
+
+          <div th:if="${user.role.name() == 'ADMIN'}" class="col-md-4">
+            <div class="feature-item p-2">
+              <a th:href="@{/contracts}" class="">Contracts</a>
+            </div>
+          </div>
+
+          <div th:if="${user.role.name() == 'USER' || user.role.name() == 'MANAGER'}" class="col-md-4">
+            <div class="feature-item p-2">
+              <a th:href="@{'/contracts/' + ${user.id}}" class="">Contracts</a>
+            </div>
+          </div>
+
         </div>
 
       </div>

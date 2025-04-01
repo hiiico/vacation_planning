@@ -9,11 +9,11 @@ import app.employee.service.EmployeeService;
 import app.user.model.User;
 import app.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.mapping.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -49,4 +49,12 @@ public class ContractService {
                 .build();
     }
 
+    public List<Contract> getAllContracts() {
+        return contractRepository.findAll();
+    }
+
+    public List<Contract> getContract(UUID employeeId) {
+
+        return contractRepository.findByEmployee_EmployeeId(employeeId);
+    }
 }

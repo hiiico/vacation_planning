@@ -35,10 +35,14 @@ public class DepartmentService {
 
         for (String type : types) {
 
-            for(Department department: departments) {
-                if (!String.valueOf(department.getType()).equals(type)) {
-                    newTypes.add(type);
+            if (!departments.isEmpty()) {
+                for(Department department: departments) {
+                    if (!String.valueOf(department.getType()).equals(type)) {
+                        newTypes.add(type);
+                    }
                 }
+            } else {
+                newTypes.add(type);
             }
 
         }

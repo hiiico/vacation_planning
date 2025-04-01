@@ -1,7 +1,8 @@
 package app.web.dto;
 
 import app.contract.model.ContractType;
-import app.user.model.User;
+import app.department.model.Department;
+import app.employee.model.Employee;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,10 +18,10 @@ import java.time.LocalDate;
 public class RegisterContractRequest {
 
     @NotNull
-    private User user;
+    private Employee employee;
 
     @NotNull
-    private User manager;
+    private Employee manager;
 
     @NotNull
     private ContractType type;
@@ -29,5 +30,9 @@ public class RegisterContractRequest {
     private LocalDate startDate;
 
     private LocalDate endDate;
+
+    @NotNull
+    private String description;
+
 
 }

@@ -13,4 +13,6 @@ public interface ContractRepository extends JpaRepository<Contract, UUID> {
 
     List<Contract> getAllByRenewalAllowed(boolean renewalAllowed);
 
+    List<Contract> findByEmployee_EmployeeId(UUID employeeId);
+
 }

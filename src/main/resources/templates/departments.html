@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users - Vacation Planner</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Vacation Planner</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/home">Home</a>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5">
+
+    <div class="col-md-10"><strong>Departments administration</strong>
+        <div class="card-body">
+            <table class="styled-table">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Manager</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="department: ${departments}">
+                    <td th:text="${department.name}"></td>
+                    <td th:text="${department.type}"></td>
+                    <td th:text="${department.manager.firstName + ' ' + department.manager.lastName}"></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="col-md-4">
+                <div th:if="${managers.size() > 0}"  class="feature-item p-2">
+                    <a th:href="@{/departments/register-department}" class="">Create Department</a>
+                </div>
+
+                <div th:if="${managers.size() == 0}"  class="feature-item p-2">
+                    <a th:href="@{/users}" class="">Please first create Manager</a>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<header th:replace="~{fragments/footer}"></header>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

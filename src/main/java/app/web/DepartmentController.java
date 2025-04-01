@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Controller
+@RequestMapping("/departments")
 public class DepartmentController {
 
     private final DepartmentService departmentService;
@@ -26,7 +27,7 @@ public class DepartmentController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping("/departments/register-department")
+    @GetMapping("/register-department")
     public ModelAndView getRegisterDepartmentPage() {
 
         List<Employee> managers = employeeService.getAllManagers();
@@ -57,7 +58,7 @@ public class DepartmentController {
     }
 
 
-    @GetMapping("/departments")
+    @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView getAllDepartments() {
 
