@@ -113,9 +113,4 @@ public class EmployeeService {
 
         employeeRepository.save(employee);
     }
-
-    public Employee getByUsername(String username) {
-
-        return employeeRepository.findByUsername(username).get();
-    }
 }

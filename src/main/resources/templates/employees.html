@@ -37,7 +37,6 @@
                     <th>F name</th>
                     <th>L name</th>
                     <th>Contract</th>
-                    <th>From</th>
                     <th>Department</th>
                     <th>Employment</th>
                 </tr>
@@ -49,28 +48,8 @@
                     <td th:text="${employee.lastName}"></td>
 
                     <td th:if="${employee.contract == null}">
-                        <a th:href="@{'/contracts/' + ${employee.employeeId} + '/register-contract'}">CREATE</a>
-                    </td>
-
-                    <td th:if="${employee.contract != null}">
-                        <span th:text="${employee.contract.type}"></span>
-                    </td>
-
-                    <td th:if="${employee.contract == null}">
-                        <span> - </span>
-                    </td>
-
-                    <td th:if="${employee.contract != null}">
-                        <span th:text="${#temporals.format(employee.contract.startDate, 'dd.MM.yyyy HH:mm')}"></span>
-                    </td>
 
                     <td th:if="${employee.department == null}">
-                        <a th:href="@{'/departments/' + ${employee.employeeId} + '/register-department'}">CREATE</a>
-                    </td>
-
-                    <td th:if="${employee.department != null}">
-                        <span th:text="${employee.department.name + ' - ' + employee.department.type}"></span>
-                   </td>
 
                     <td>
                     <form th:action="@{'/employees/' + ${employee.employeeId} + '/employment'}"
