@@ -8,8 +8,12 @@ import app.employee.service.EmployeeService;
 import app.user.model.User;
 import app.user.repository.UserRepository;
 import app.user.service.UserService;
+import app.web.dto.RegisterContractRequest;
+import app.web.dto.RegisterDepartmentRequest;
+import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -32,7 +36,36 @@ public class ContractController {
         this.userService = userService;
     }
 
-@GetMapping("/{id}")
+    @GetMapping("/register-contract")
+    public ModelAndView getRegisterContractPage() {
+
+        List<Employee> managers = employeeService.getAllManagers();
+
+        ModelAndView mnv = new ModelAndView();
+        mnv.setViewName("register-contract");
+        mnv.addObject("registerContractRequest", new RegisterContractRequest());
+        mnv.addObject("managers", managers);
+
+        return mnv;
+    }
+
+//    @PostMapping("/register-contract")
+//    public ModelAndView registerNewDepartment(@Valid RegisterContractRequest registerContractRequest,
+//                                              BindingResult bindingResult) {
+//
+//        if(bindingResult.hasErrors()) {
+//            return new ModelAndView("register-contract");
+//        }
+//
+//        contractService.register(registerContractRequest);
+//        ModelAndView mnv = new ModelAndView();
+//        mnv.setViewName("redirect:/home");
+//
+//        return mnv;
+//    }
+
+
+    @GetMapping("/{id}")
 
 public ModelAndView getContract(@PathVariable UUID id) {
 

@@ -61,9 +61,9 @@
                 </tbody>
             </table>
 
-            <div class="col-md-4">
+            <div if="${user.role.name == 'ADMIN'}" class="col-md-4">
                 <div class="feature-item p-2">
-                    <a th:href="@{/departments/register-contract}" class="">Create contract</a>
+                    <a th:href="@{/contracts/register-contract}" class="">Create contract</a>
                 </div>
             </div>
 

@@ -17,35 +17,35 @@
         <div class="col-md-6">
             <div class="card shadow">
                 <div class="card-header bg-primary text-white text-center">
-                    <h3>Create Department</h3>
+                    <h3>Create Contract</h3>
                 </div>
                 <div class="card-body">
 
-                    <form th:action="@{/register-contract}"
+                    <form th:action="@{/contracts/register-contract}"
                           th:object="${registerContractRequest}"
                           th:method="POST">
 
                         <div class="mb-3">
                             <label for="name" class="form-label">Name</label>
-                            <input th:field="*{name}"
+                            <input field="*{name}"
                                    type="text"
                                    class="form-control"
                                    id="name"  required>
-                            <div th:if="${#fields.hasErrors('name')}"
-                                 th:class="text-danger">
-                                <small th:errors="*{name}">name error</small>
+                            <div if="${#fields.hasErrors('name')}"
+                                 class="text-danger">
+                                <small errors="*{name}">name error</small>
                             </div>
                         </div>
 
                         <div class="mb-3">
                             <label for="manager" class="form-label">Manager</label>
-                            <select th:field="*{manager}"
+                            <select field="*{manager}"
                                     id="manager"
                                     class="form-control">
                                 <option value="">-- Select Manager --</option>
-                                <option th:each="manager: ${managers}"
-                                        th:value="${manager.employeeId}"
-                                        th:text="${manager.firstName + ' ' + manager.lastName}">
+                                <option each="manager: ${managers}"
+                                        value="${manager.employeeId}"
+                                        text="${manager.firstName + ' ' + manager.lastName}">
                                 </option>
                             </select>
                         </div>
@@ -55,10 +55,10 @@
                             <select th:field="*{type}"
                                     id="type"
                                     class="form-control">
-                                <option value="">-- Select Department --</option>
-                                <option th:each="dType: ${types}"
-                                        th:value="${dType}"
-                                        th:text="${#strings.capitalize(#strings.toLowerCase(dType))}">
+                                <option value="">-- Select Contract --</option>
+                                <option each="dType: ${types}"
+                                        value="${dType}"
+                                        text="${#strings.capitalize(#strings.toLowerCase(dType))}">
                                 </option>
                             </select>
                         </div>

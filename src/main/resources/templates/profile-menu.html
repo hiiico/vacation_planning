@@ -116,36 +116,11 @@
           </table>
         </div>
       </div>
-      <!-- Vacations Section -->
-      <div class="container mt-5">
-        <div class="row">
-
-          <div class="col-md-8">
-            <div class="card shadow">
-              <div class="card-header bg-primary text-white">
-                <h3>Upcoming Vacations</h3>
-              </div>
-              <div if="${user.vacation.empty}" class="alert alert-info">
-                You have no upcoming vacations. <a href="@{/vacation}">Plan one now!</a>
-              </div>
-              <div class="card-body">
-                <div each="vacation : ${user.vacations}" class="card mb-3">
-                  <div unless="" ></div>
-                </div>
-              </div>
-            </div>
-        </div>
-
-      <!-- Sidebar for Quick Actions -->
-      <header th:replace="~{fragments/quick_actions}"></header>
 
         </div>
       </div>
 
     </div>
-
-  </div>
-</div>
 
 <!-- Footer -->
 <header th:replace="~{fragments/footer}"></header>

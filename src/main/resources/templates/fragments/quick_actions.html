@@ -11,19 +11,19 @@
 
           <div class="col-md-4">
             <div class="feature-item p-2">
-              <a href="/destinations" class="">Create request</a>
+              <a th:href="@{/vacations/register-vacation}" class="">Create request</a>
             </div>
           </div>
 
           <div class="col-md-4">
             <div class="feature-item p-2">
-              <a href="/destinations">Change request</a>
+              <a href="/vacations">Change request</a>
             </div>
           </div>
 
           <div  th:if="${user.role.name() == 'MANAGER'}" class="col-md-4">
             <div class="feature-item p-2">
-              <a href="/vacation" class="">Confirm request</a>
+              <a href="/vacations" class="">Confirm request</a>
             </div>
           </div>
 

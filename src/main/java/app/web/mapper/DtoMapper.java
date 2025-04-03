@@ -2,8 +2,10 @@ package app.web.mapper;
 
 import app.employee.model.Employee;
 import app.user.model.User;
+import app.vacation.model.Vacation;
 import app.web.dto.EmployeeEditRequest;
 import app.web.dto.UserEditRequest;
+import app.web.dto.VacationEditRequest;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
@@ -18,13 +20,4 @@ public class DtoMapper {
                 .build();
     }
 
-    public static EmployeeEditRequest mapEmployeeToEmployeeEditRequest(Employee employee) {
-
-    return EmployeeEditRequest.builder()
-            .phone(employee.getPhone())
-            .contract(employee.getContract())
-            .department(employee.getDepartment())
-            .employmentStatus(employee.getEmployment())
-            .build();
-    }
 }

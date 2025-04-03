@@ -2,11 +2,15 @@ package app.vacation.model;
 
 import app.employee.model.Employee;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+
 import java.time.LocalDate;
 import java.util.UUID;
-
-@Data
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Vacation {
     @Id
@@ -26,6 +30,8 @@ public class Vacation {
     private AbsencesReason absencesReason;
 
     @Column(nullable = false)
+    private boolean approved;
+
     private int absenceDays;
 
 }

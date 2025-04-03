@@ -113,4 +113,12 @@ public class EmployeeService {
 
         employeeRepository.save(employee);
     }
+
+    public Employee getByUsername(String username) {
+
+        Optional<Employee> employeeOptional = employeeRepository.findByUsername(username);
+
+        return employeeOptional.get();
+    }
+
 }
