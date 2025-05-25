@@ -1,0 +1,28 @@
+<div class="col-md-6">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h3>Profile</h3>
+        </div>
+
+        <div class="card-body">
+            <div class="container mt-3">
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="profile-header">
+                            <img th:src="${#strings.isEmpty(user.profilePicture) ? '/images/avatar.jpg' : user.profilePicture}" class="profile-avatar" alt="">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
+                        <a th:href="@{'/users/' + ${user.id} + '/profile'}" class="btn btn-primary btn-sm">Edit Details</a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

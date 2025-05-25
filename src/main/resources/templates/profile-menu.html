@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile - Vacation Planner</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Vacation Planner</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/home}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/logout}">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Profile Section -->
+<div class="container mt-5">
+  <div class="row">
+
+    <div class="col-md-4">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+          <h3>Profile</h3>
+        </div>
+        <div class="card-body">
+          <h3>User Information</h3>
+
+          <form th:action="@{'/users/' + ${user.id} + '/profile'}"
+                th:method="PUT"
+                th:object="${userEditRequest}"
+                class="">
+            <div class="mb-3">
+              <label for="firstName">First Name</label>
+              <input th:field="*{firstName}"
+                     type="text"
+                     id="firstName"
+                     class="form-control"
+                     placeholder="First Name">
+              <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="alert alert-danger"></p>
+            </div>
+            <div class="mb-3">
+              <label for="lastName">Last Name</label>
+              <input th:field="*{lastName}"
+                     type="text"
+                     id="lastName"
+                     class="form-control"
+                     placeholder="Last Name">
+              <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="alert alert-danger"></p>
+            </div>
+            <div class="mb-3">
+              <label for="email">Email</label>
+              <input th:field="*{email}"
+                     type="text"
+                     id="email"
+                     class="form-control"
+                     placeholder="Email Address">
+              <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert alert-danger"></p>
+            </div>
+            <div class="mb-3">
+              <label for="profilePicture">Profile Picture URL</label>
+              <input th:field="*{profilePicture}"
+                     type="text"
+                     id="profilePicture"
+                     class="form-control"
+                     placeholder="Image Link">
+              <p th:if="${#fields.hasErrors('profilePicture')}" th:errors="*{profilePicture}" class="alert alert-danger"></p>
+            </div>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contracts Section -->
+    <div class="col-md-8">
+
+      <h3>Contract</h3>
+      <div class="card-shadow">
+        <div class="card-body">
+          <table class="table-container">
+            <thead>
+            <tr>
+              <th>Contract Type</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr each="contract : ${user.contracts}">
+              <td text="${contract.contractType}"></td>
+              <td text="${#temporals.format(contract.startDate, 'MMM dd, yyyy')}"></td>
+              <td text="${#temporals.format(contract.endDate, 'MMM dd, yyyy')}"></td>
+              <td>
+                <a href="@{/contracts/delete/{id}(id=${contract.id})}" class="btn btn-danger btn-sm">Delete</a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+        </div>
+      </div>
+
+    </div>
+
+<!-- Footer -->
+<header th:replace="~{fragments/footer}"></header>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
