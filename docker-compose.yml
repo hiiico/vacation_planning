@@ -1,0 +1,32 @@
+#version: '3.8'
+services:
+  # urlaubsplanung
+  urlaubsplanung:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
+#    env_file:
+#      - .env
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:mysql://shared-mysql-db:3306/vacation_planning?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+    networks:
+      - app-network
+#    restart: unless-stopped
+    expose:
+      - "8080"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+      interval: 10s
+      timeout: 50s
+      retries: 10
+networks:
+  app-network:
+    external: true
