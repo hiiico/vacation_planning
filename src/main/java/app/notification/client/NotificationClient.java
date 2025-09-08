@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 // docker-container
 //@FeignClient(name = "urlaubsplanung-notification", url="http://urlaubsplanung-notification:8081/api/v1/notifications")
-@FeignClient(name = "vacation-planning-notifications", url="http://localhost:8081/api/v1/notifications")
+//@FeignClient(name = "vacation-planning-notifications", url="http://localhost:8081/api/v1/notifications")
 public interface NotificationClient {
 
     @PostMapping("/preferences")

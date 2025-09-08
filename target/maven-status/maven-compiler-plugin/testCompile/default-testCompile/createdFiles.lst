@@ -1,7 +1,0 @@
-app/user/UserServiceUnitTest.class
-app/web/UserControllerMvcApiTest.class
-app/UserRegisterTest.class
-app/TestBuilder.class
-app/web/mapper/DtoMapperUnitTest.class
-app/ApplicationTests.class
-app/web/IndexControllerMvcApiTest.class

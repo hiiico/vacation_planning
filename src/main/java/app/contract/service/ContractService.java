@@ -5,16 +5,10 @@ import app.contract.model.ContractType;
 import app.contract.repository.ContractRepository;
 import app.department.model.Department;
 import app.employee.model.Employee;
-import app.employee.service.EmployeeService;
-import app.user.model.User;
-import app.user.service.UserService;
 import app.web.dto.RegisterContractRequest;
-import app.web.dto.RegisterDepartmentRequest;
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
