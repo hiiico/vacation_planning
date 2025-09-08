@@ -74,17 +74,18 @@ public class UserService implements UserDetailsService {
 
         User user = userRepository.save(initializeUser(registerRequest));
 
+        // kafka must create a real event and replaces the notificationService
 
-        notificationService.saveNotificationPreference(user.getId(), false, null);
-        // kafka must create a real event that replaces the notification service
-        /*
+        // if Kafka -> close NotificationService
+        //notificationService.saveNotificationPreference(user.getId(), false, null);
+
+        // if Kafka -> open UserRegisterEvent
         UserRegisterEvent event = UserRegisterEvent.builder()
                 .userId(user.getId())
                 .createdOn(user.getCreatedOn())
                 .build();
         userRegisterEventProducer.sendEvent(event);
 
-        */
         log.info("Successfully created new user account for username [%s] and id [%s]"
                 .formatted(registerRequest.getUsername(), user.getId()));
         return user;
