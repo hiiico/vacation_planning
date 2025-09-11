@@ -9,8 +9,6 @@ services:
       - "8080:8080"
 #    extra_hosts:
 #      - "host.docker.internal:host-gateway"
-    env_file:
-      - .env
     environment:
       - SPRING_PROFILES_ACTIVE=prod
       - SPRING_DATASOURCE_URL=jdbc:mysql://shared-mysql-db:3306/vacation_planning?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
