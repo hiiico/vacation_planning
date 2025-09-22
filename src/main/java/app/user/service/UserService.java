@@ -35,14 +35,14 @@ public class UserService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final NotificationService notificationService;
     private final EmployeeService employeeService;
-    private final UserRegisterEventProducer userRegisterEventProducer;
+    //private final UserRegisterEventProducer userRegisterEventProducer;
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, NotificationService notificationService, EmployeeService employeeService, UserRegisterEventProducer userRegisterEventProducer) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.notificationService = notificationService;
         this.employeeService = employeeService;
-        this.userRegisterEventProducer = userRegisterEventProducer;
+        //this.userRegisterEventProducer = userRegisterEventProducer;
     }
 
     public void registerDefaultUser(RegisterRequest registerRequest) {
@@ -73,18 +73,7 @@ public class UserService implements UserDetailsService {
         }
 
         User user = userRepository.save(initializeUser(registerRequest));
-
-        // kafka must create a real event and replaces the notificationService
-
-        // if Kafka -> close NotificationService
-        //notificationService.saveNotificationPreference(user.getId(), false, null);
-
-        // if Kafka -> open UserRegisterEvent
-        UserRegisterEvent event = UserRegisterEvent.builder()
-                .userId(user.getId())
-                .createdOn(user.getCreatedOn())
-                .build();
-        userRegisterEventProducer.sendEvent(event);
+        notificationService.saveNotificationPreference(user.getId(), false, null);
 
         log.info("Successfully created new user account for username [%s] and id [%s]"
                 .formatted(registerRequest.getUsername(), user.getId()));
