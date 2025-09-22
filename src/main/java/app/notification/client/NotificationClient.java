@@ -3,7 +3,7 @@ package app.notification.client;
 import app.notification.client.dto.Notification;
 import app.notification.client.dto.NotificationPreference;
 import app.notification.client.dto.NotificationRequest;
-import app.notification.client.dto.UpsertNotificationPreference;
+import app.event.payload.UpsertNotificationPreference;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 // docker-container
 //@FeignClient(name = "urlaubsplanung-notification", url="http://urlaubsplanung-notification:8081/api/v1/notifications")
-//@FeignClient(name = "vacation-planning-notifications", url="http://localhost:8081/api/v1/notifications")
+@FeignClient(name = "vacation-planning-notifications", url="http://localhost:8081/api/v1/notifications")
 public interface NotificationClient {
 
     @PostMapping("/preferences")
