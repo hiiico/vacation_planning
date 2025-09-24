@@ -1,8 +1,6 @@
 package app.user.service;
 
 import app.employee.service.EmployeeService;
-import app.event.UserRegisterEventProducer;
-import app.event.payload.UserRegisterEvent;
 import app.exception.DomainException;
 import app.exception.UsernameAlreadyExist;
 import app.notification.service.NotificationService;
@@ -37,7 +35,7 @@ public class UserService implements UserDetailsService {
     private final EmployeeService employeeService;
     //private final UserRegisterEventProducer userRegisterEventProducer;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, NotificationService notificationService, EmployeeService employeeService, UserRegisterEventProducer userRegisterEventProducer) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, NotificationService notificationService, EmployeeService employeeService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.notificationService = notificationService;
