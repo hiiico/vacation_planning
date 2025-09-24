@@ -1,0 +1,46 @@
+{
+  "groups": [],
+  "properties": [
+    {
+      "name": "feign.client.config.default.connectTimeout",
+      "type": "java.lang.String",
+      "description": "Description for feign.client.config.default.connectTimeout."
+    },
+    {
+      "name": "feign.client.config.default.readTimeout",
+      "type": "java.lang.String",
+      "description": "Description for feign.client.config.default.readTimeout."
+    },
+    {
+      "name": "notification.service.url",
+      "type": "java.lang.String",
+      "description": "Description for notification.service.url."
+    },
+    {
+      "name": "notifications.service.url",
+      "type": "java.lang.String",
+      "description": "Description for notifications.service.url."
+    },
+    {
+      "name": "urlaubsplanung-notification.base-url",
+      "type": "java.lang.String",
+      "description": "Description for urlaubsplanung-notification.base-url."
+    },
+    {
+      "name": "urlaubsplanung-notification.failure-message.clear-history",
+      "type": "java.lang.String",
+      "description": "Description for urlaubsplanung-notification.failure-message.clear-history."
+    },
+    {
+      "name": "vacation-planning-notifications.base-url",
+      "type": "java.lang.String",
+      "description": "Description for vacation-planning-notifications.base-url."
+    },
+    {
+      "name": "vacation-planning-notifications.failure-message.clear-history",
+      "type": "java.lang.String",
+      "description": "Description for vacation-planning-notifications.failure-message.clear-history."
+    }
+  ],
+  "hints": []
+}

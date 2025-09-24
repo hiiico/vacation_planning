@@ -1,6 +1,6 @@
 package app.notification.service;
 
-import app.event.UserRegisterEventProducer;
+import app.event.EventProducer;
 import app.notification.client.NotificationClient;
 import app.notification.client.dto.Notification;
 import app.notification.client.dto.NotificationPreference;
@@ -16,15 +16,15 @@ import java.util.UUID;
 @Slf4j
 @Service
 public class NotificationService {
-
+    // Feign client
     private final NotificationClient notificationClient;
     // Kafka
-    private final UserRegisterEventProducer userRegisterEventProducer;
+    private final EventProducer eventProducer;
 
 @Autowired
-    public NotificationService(NotificationClient notificationClient, UserRegisterEventProducer userRegisterEventProducer) {
+    public NotificationService(NotificationClient notificationClient, EventProducer eventProducer) {
         this.notificationClient = notificationClient;
-        this.userRegisterEventProducer = userRegisterEventProducer;
+        this.eventProducer = eventProducer;
 }
 
     public void saveNotificationPreference(UUID userid, boolean isEmailEnabled, String email) {
@@ -46,7 +46,7 @@ public class NotificationService {
 //        }
 
         // Kafka Async version that doesn't block the calling thread
-        userRegisterEventProducer.sendEvent(notificationPreference);
+        eventProducer.sendUpsertPreference(notificationPreference);
     }
 
     public NotificationPreference getNotificationPreferences(UUID userId) {
