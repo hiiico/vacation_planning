@@ -1,6 +1,7 @@
 package app.user.service;
 
 import app.employee.service.EmployeeService;
+import app.event.EventMessage;
 import app.exception.DomainException;
 import app.exception.UsernameAlreadyExist;
 import app.notification.service.NotificationService;
@@ -33,14 +34,12 @@ public class UserService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final NotificationService notificationService;
     private final EmployeeService employeeService;
-    //private final UserRegisterEventProducer userRegisterEventProducer;
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, NotificationService notificationService, EmployeeService employeeService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.notificationService = notificationService;
         this.employeeService = employeeService;
-        //this.userRegisterEventProducer = userRegisterEventProducer;
     }
 
     public void registerDefaultUser(RegisterRequest registerRequest) {
@@ -78,39 +77,60 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
+    @Transactional
     @CacheEvict(value = "users", allEntries = true)
     public void editUserDetails(UUID userId, UserEditRequest userEditRequest) {
 
         User user = getById(userId);
+        StringBuilder message = new StringBuilder((String.format("Hello %s, ", user.getUsername())));
+        boolean changes = false;
 
-        if(userEditRequest.getEmail().isBlank()) {
-
-            String emailBody = "Hello %s, your contact email %s has been successfully removed from the Vacation Planner app."
-                    .formatted(user.getUsername(), user.getEmail());
-            notificationService.sendNotification(userId, "Removed email.", emailBody);
-
-            notificationService.saveNotificationPreference(userId, false, null);
+        if (!(user.getFirstName()).equals(userEditRequest.getFirstName())) {
+            user.setFirstName(userEditRequest.getFirstName());
+            message.append(String.format("your first name has been set to [%s], ", user.getFirstName()));
+            changes = true;
         }
 
-        user.setFirstName(userEditRequest.getFirstName());
-        user.setLastName(userEditRequest.getLastName());
-        user.setEmail(userEditRequest.getEmail());
-        user.setProfilePicture(userEditRequest.getProfilePicture());
-
-        if(!userEditRequest.getEmail().isBlank()) {
-
-            notificationService.saveNotificationPreference(userId, true, userEditRequest.getEmail());
-
-
-
-            String emailBody = "Hello " + user.getUsername() + "!\nYour password is: admin1234\nLogin: "
-                    .formatted(user.getUsername(), user.getEmail());
-            notificationService.sendNotification(userId, "Successful registration in Vacation planner!", emailBody);
+        if (!(user.getLastName()).equals(userEditRequest.getLastName())) {
+            user.setLastName(userEditRequest.getLastName());
+            message.append(String.format("your last name has been set to [%s], ", user.getLastName()));
+            changes = true;
         }
 
+        if (!(user.getProfilePicture()).equals(userEditRequest.getProfilePicture())) {
+            user.setProfilePicture(userEditRequest.getProfilePicture());
+            message.append(String.format("your profile picture has been set to [%s], ", user.getProfilePicture()));
+            changes = true;
+        }
+
+        if (!(user.getEmail()).equals(userEditRequest.getEmail())) {
+            if (user.getEmail().isBlank() && !userEditRequest.getEmail().isBlank()) {
+                user.setEmail(userEditRequest.getEmail());
+                message.append(String.format("you are successfully registered in Vacation planner and your email has been set to [%s]!", user.getEmail()));
+                changes = true;
+            } else if (userEditRequest.getEmail().isBlank()) {
+                message.append(String.format("your contact email [%s] has been successfully removed, ", user.getEmail()));
+                notificationService.sendNotification(userId, "Changes", String.valueOf(message));
+                user.setEmail(userEditRequest.getEmail());
+                notificationService.saveNotificationPreference(userId, false, null);
+            } else {
+                message.append(String.format("your contact email has been set to [%s],", userEditRequest.getEmail()));
+                user.setEmail(userEditRequest.getEmail());
+                changes = true;
+            }
+        }
+
+        notificationService.saveNotificationPreference(userId, true, user.getEmail());
         userRepository.save(user);
 
-        if(!user.getFirstName().isBlank() && !user.getLastName().isBlank() && !user.getEmail().isBlank()) {
+        if (!user.getEmail().isBlank() && changes) {
+            notificationService.sendNotification(userId, "Changes", String.valueOf(message));
+        }
+
+        // TODO change employee settings
+        if(!user.getFirstName().isBlank()
+                && !user.getLastName().isBlank()
+                && !user.getEmail().isBlank()) {
             employeeService.createEmployee(user);
         }
 

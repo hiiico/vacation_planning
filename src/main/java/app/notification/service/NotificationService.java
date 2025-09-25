@@ -36,7 +36,7 @@ public class NotificationService {
                         .type("EMAIL")
                         .notificationEnabled(isEmailEnabled)
                         .build();
-        // Feign client
+        // http request/response
 //        ResponseEntity<Void> httpResponse =
 //                notificationClient.upsertNotificationPreferences(notificationPreference);
 //        if (!httpResponse.getStatusCode().is2xxSuccessful()) {
@@ -72,21 +72,24 @@ public class NotificationService {
                 .subject(emailSubject)
                 .body(emailBody)
                 .build();
-        ResponseEntity<Void> httpResponse;
 
-        try {
+        // http request/response
+//        ResponseEntity<Void> httpResponse;
+//        try {
+//            httpResponse = notificationClient.sendNotification(notificationRequest);
+//            if(!httpResponse.getStatusCode().is2xxSuccessful()) {
+//                log.error(
+//                        "[Feign call to notification-src failed] Can't sent email to user with id = [%s]"
+//                                .formatted(userId));
+//            }
+//
+//        } catch (Exception e) {
+//            log.error("Can't send email to user with id = [%s] due to 500 Internal Server Error."
+//                    .formatted(userId));
+//        }
 
-            httpResponse = notificationClient.sendNotification(notificationRequest);
-            if(!httpResponse.getStatusCode().is2xxSuccessful()) {
-                log.error(
-                        "[Feign call to notification-src failed] Can't sent email to user with id = [%s]"
-                                .formatted(userId));
-            }
-
-        } catch (Exception e) {
-            log.error("Can't send email to user with id = [%s] due to 500 Internal Server Error."
-                    .formatted(userId));
-        }
+        // Kafka Async version that doesn't block the calling thread
+        eventProducer.sendNotification(notificationRequest);
     }
 
     public void updateNotificationPreference(UUID userId, boolean enabled) {

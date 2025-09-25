@@ -1,5 +1,6 @@
 package app.event;
 
+import app.event.payload.NotificationPreferenceResponseKafka;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +35,7 @@ public class ReplyEventConsumer {
 
             switch (eventType) {
                 case "NOTIFICATION_PREFERENCE_RESPONSE" -> handlePreferenceResponse(payload);
-//                case "USER_REGISTER_RESPONSE" -> handleRegisterResponse(payload);
+                case "NOTIFICATION_RESPONSE" -> handleNotificationResponse(payload);
 //                case "PASSWORD_RESET_RESPONSE" -> handlePasswordResetResponse(payload);
                 default -> log.warn("Unknown reply eventType [{}]: {}", eventType, message);
             }
@@ -57,8 +58,11 @@ public class ReplyEventConsumer {
             UUID userId = UUID.fromString(userIdText);
 
             if (success) {
+                //TODO reacting programmatically -> Update DB or state accordingly
+
                 log.info("User [{}] preferences saved successfully", userId);
             } else {
+                // TODO handle exception
                 String error = payload.path("error").asText("Unknown error");
                 log.error("Failed to save preferences for user [{}]: {}", userId, error);
             }
@@ -68,47 +72,31 @@ public class ReplyEventConsumer {
         }
     }
 
-//    private void handleRegisterResponse(JsonNode payload) {
-//        try {
-//            String userIdText = payload.path("userId").asText(null);
-//            boolean success = payload.path("success").asBoolean(false);
-//
-//            if (userIdText == null) {
-//                log.error("Register reply missing userId: {}", payload);
-//                return;
-//            }
-//
-//            if (success) {
-//                log.info("User [{}] registered successfully", userIdText);
-//            } else {
-//                String error = payload.path("error").asText("Unknown error");
-//                log.error("User [{}] registration failed: {}", userIdText, error);
-//            }
-//
-//        } catch (Exception e) {
-//            log.error("Failed to process USER_REGISTER_RESPONSE: {}", payload, e);
-//        }
-//    }
-//
-//    private void handlePasswordResetResponse(JsonNode payload) {
-//        try {
-//            String userIdText = payload.path("userId").asText(null);
-//            boolean success = payload.path("success").asBoolean(false);
-//
-//            if (userIdText == null) {
-//                log.error("Password reset reply missing userId: {}", payload);
-//                return;
-//            }
-//
-//            if (success) {
-//                log.info("Password reset for user [{}] completed successfully", userIdText);
-//            } else {
-//                String error = payload.path("error").asText("Unknown error");
-//                log.error("Password reset for user [{}] failed: {}", userIdText, error);
-//            }
-//
-//        } catch (Exception e) {
-//            log.error("Failed to process PASSWORD_RESET_RESPONSE: {}", payload, e);
-//        }
-//    }
+    private void handleNotificationResponse(JsonNode payload) {
+        try {
+            String userIdText = payload.path("userId").asText(null);
+            boolean success = payload.path("success").asBoolean(false);
+
+            if (userIdText == null) {
+                log.error("Reply payload missing userId: {}", payload);
+                return;
+            }
+
+            UUID userId = UUID.fromString(userIdText);
+
+            if (success) {
+                //TODO reacting programmatically -> Update DB or state accordingly
+
+                log.info("User [{}] notification send successfully", userId);
+            } else {
+                // TODO handle exception
+                String error = payload.path("error").asText("Unknown error");
+                log.error("Failed to send notification to user [{}]: {}", userId, error);
+            }
+
+        } catch (Exception e) {
+            log.error("Failed to process NOTIFICATION_RESPONSE: {}", payload, e);
+        }
+    }
+
 }
