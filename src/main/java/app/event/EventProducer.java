@@ -1,10 +1,13 @@
 package app.event;
 
 import app.event.payload.UpsertNotificationPreference;
+import app.notification.client.dto.NotificationRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
+
+import java.util.concurrent.ExecutionException;
 
 @Component
 @Slf4j
@@ -19,32 +22,38 @@ public class EventProducer {
         this.topic = topic;
     }
 
-    public <T> void send(String eventType, String key, T payload) {
+    // --- Internal generic send ---
+    private <T> void sendAsync(String eventType, String key, T payload) {
         EventMessage<T> message = new EventMessage<>(eventType, payload);
-
         kafkaTemplate.send(topic, key, message)
                 .whenComplete((result, ex) -> {
                     if (ex == null) {
-                        log.info("Sent {} with key={} to topic {}", eventType, key, topic);
+                        log.info("Async sent {} with key={} to topic {}", eventType, key, topic);
                     } else {
-                        log.error("Failed to send {} with key={}: {}", eventType, key, ex.getMessage());
+                        log.error("Async failed {} with key={}: {}", eventType, key, ex.getMessage());
                     }
                 });
     }
 
-    public void sendUpsertPreference(UpsertNotificationPreference event) {
-        send("UPSERT_NOTIFICATION_PREFERENCE", event.getUserId().toString(), event);
+    private <T> void sendSync(String eventType, String key, T payload) {
+        EventMessage<T> message = new EventMessage<>(eventType, payload);
+        try {
+            kafkaTemplate.send(topic, key, message).get(); // waits for broker ack
+            log.info("Sync sent {} with key={} to topic {}", eventType, key, topic);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            log.error("Sync send interrupted {} with key={}", eventType, key, e);
+        } catch (ExecutionException e) {
+            log.error("Sync send failed {} with key={}", eventType, key, e);
+        }
     }
 
-    // add more cases as your app grows
+    // --- Public API ---
+    public void sendUpsertPreference(UpsertNotificationPreference event) {
+        sendSync("UPSERT_NOTIFICATION_PREFERENCE", event.getUserId().toString(), event);
+    }
 
-//    public void sendUserRegistered(UserRegisteredEvent event) {
-//        send("USER_REGISTERED", event.getUserId().toString(), event);
-//    }
-//
-//    public void sendNotification(NotificationEvent event) {
-//        send("NOTIFICATION", event.getTargetUser().toString(), event);
-//    }
-
+    public void sendNotification(NotificationRequest event) {
+        sendAsync("NOTIFICATION_REQUEST", event.getUserId().toString(), event);
+    }
 }
-
