@@ -82,50 +82,42 @@ public class UserService implements UserDetailsService {
     public void editUserDetails(UUID userId, UserEditRequest userEditRequest) {
 
         User user = getById(userId);
-        StringBuilder message = new StringBuilder((String.format("Hello %s, ", user.getUsername())));
+/*        StringBuilder message = new StringBuilder((String.format("Hello %s, ", user.getUsername())));
         boolean changes = false;
-
-        if (!(user.getFirstName()).equals(userEditRequest.getFirstName())) {
-            user.setFirstName(userEditRequest.getFirstName());
-            message.append(String.format("your first name has been set to [%s], ", user.getFirstName()));
-            changes = true;
-        }
-
-        if (!(user.getLastName()).equals(userEditRequest.getLastName())) {
-            user.setLastName(userEditRequest.getLastName());
-            message.append(String.format("your last name has been set to [%s], ", user.getLastName()));
-            changes = true;
-        }
-
-        if (!(user.getProfilePicture()).equals(userEditRequest.getProfilePicture())) {
+        changes = setFName(userEditRequest, user, message, changes);
+        changes = setLName(userEditRequest, user, message, changes);
+        if (!(userEditRequest.getProfilePicture().isBlank())) {
             user.setProfilePicture(userEditRequest.getProfilePicture());
-            message.append(String.format("your profile picture has been set to [%s], ", user.getProfilePicture()));
+            message.append(String.format("your profile picture have been set to [%s], ", user.getProfilePicture()));
             changes = true;
         }
-
-        if (!(user.getEmail()).equals(userEditRequest.getEmail())) {
-            if (user.getEmail().isBlank() && !userEditRequest.getEmail().isBlank()) {
-                user.setEmail(userEditRequest.getEmail());
-                message.append(String.format("you are successfully registered in Vacation planner and your email has been set to [%s]!", user.getEmail()));
-                changes = true;
-            } else if (userEditRequest.getEmail().isBlank()) {
-                message.append(String.format("your contact email [%s] has been successfully removed, ", user.getEmail()));
-                notificationService.sendNotification(userId, "Changes", String.valueOf(message));
-                user.setEmail(userEditRequest.getEmail());
-                notificationService.saveNotificationPreference(userId, false, null);
-            } else {
-                message.append(String.format("your contact email has been set to [%s],", userEditRequest.getEmail()));
-                user.setEmail(userEditRequest.getEmail());
-                changes = true;
-            }
-        }
-
+        changes = setEmail(userId, userEditRequest, user, message, changes);
         notificationService.saveNotificationPreference(userId, true, user.getEmail());
         userRepository.save(user);
-
         if (!user.getEmail().isBlank() && changes) {
             notificationService.sendNotification(userId, "Changes", String.valueOf(message));
         }
+ */
+        if(userEditRequest.getEmail().isBlank()) {
+            String emailBody = "Hello %s, your contact email %s has been successfully removed from the Vacation Planner app."
+                    .formatted(user.getUsername(), user.getEmail());
+            notificationService.sendNotification(userId, "Removed email.", emailBody);
+            notificationService.saveNotificationPreference(userId, false, null);
+        }
+
+        user.setFirstName(userEditRequest.getFirstName());
+        user.setLastName(userEditRequest.getLastName());
+        user.setEmail(userEditRequest.getEmail());
+        user.setProfilePicture(userEditRequest.getProfilePicture());
+
+        if(!userEditRequest.getEmail().isBlank()) {
+            notificationService.saveNotificationPreference(userId, true, userEditRequest.getEmail());
+            String emailBody = "Hello %s!"
+                    .formatted(user.getUsername());
+            notificationService.sendNotification(userId, "Successful registration in Vacation planner!", emailBody);
+        }
+
+        userRepository.save(user);
 
         // TODO change employee settings
         if(!user.getFirstName().isBlank()
@@ -134,6 +126,71 @@ public class UserService implements UserDetailsService {
             employeeService.createEmployee(user);
         }
 
+    }
+
+    private boolean setEmail(UUID userId, UserEditRequest userEditRequest, User user, StringBuilder message, boolean changes) {
+        if (!(user.getEmail().isBlank() && userEditRequest.getEmail().isBlank())) {
+            if (!user.getEmail().equals(userEditRequest.getEmail())) {
+                if (userEditRequest.getEmail().isEmpty()) {
+                    message.append(String.format("your contact email [%s] have been successfully removed, ", user.getEmail()));
+                    notificationService.sendNotification(userId, "Changes", String.valueOf(message));
+                    user.setEmail(userEditRequest.getEmail());
+                    notificationService.saveNotificationPreference(userId, false, null);
+                } else {
+                    user.setEmail(userEditRequest.getEmail());
+                    message.append(String.format("your email have been changed to [%s]!", user.getEmail()));
+                    changes = true;
+                }
+            }
+        } else if (!(user.getEmail().isBlank()) && userEditRequest.getEmail().isBlank()) {
+            message.append(String.format("your contact email [%s] have been successfully removed, ", user.getEmail()));
+            notificationService.sendNotification(userId, "Changes", String.valueOf(message));
+            user.setEmail(userEditRequest.getEmail());
+            notificationService.saveNotificationPreference(userId, false, null);
+        } else if (user.getEmail().isBlank() && !(userEditRequest.getEmail().isBlank())) {
+            message.append(String.format("you are successfully registered in Vacation planner and your contact email have been set to [%s],", userEditRequest.getEmail()));
+            user.setEmail(userEditRequest.getEmail());
+            changes = true;
+        }
+        return changes;
+    }
+
+    private static boolean setLName(UserEditRequest userEditRequest, User user, StringBuilder message, boolean changes) {
+        if (!(user.getLastName().isBlank() && userEditRequest.getLastName().isBlank())) {
+            if (!user.getLastName().equals(userEditRequest.getLastName())) {
+                user.setLastName(userEditRequest.getLastName());
+                message.append(String.format("your last name have been changed to [%s], ", user.getLastName()));
+                changes = true;
+            }
+        } else if (!(user.getLastName().isBlank()) && userEditRequest.getLastName().isBlank()) {
+            user.setLastName(userEditRequest.getLastName());
+            message.append(String.format("your last name [%s] have been removed, ", user.getLastName()));
+            changes = true;
+        } else if (user.getLastName().isBlank() && !(userEditRequest.getLastName().isBlank())) {
+            user.setLastName(userEditRequest.getLastName());
+            message.append(String.format("your last name have been set to [%s], ", user.getLastName()));
+            changes = true;
+        }
+        return changes;
+    }
+
+    private static boolean setFName(UserEditRequest userEditRequest, User user, StringBuilder message, boolean changes) {
+        if (!(user.getFirstName().isBlank() && userEditRequest.getFirstName().isBlank())) {
+            if (!user.getFirstName().equals(userEditRequest.getFirstName())) {
+                user.setFirstName(userEditRequest.getFirstName());
+                message.append(String.format("your first name have been changed to [%s], ", user.getFirstName()));
+                changes = true;
+            }
+        } else if (!(user.getFirstName().isBlank()) && userEditRequest.getFirstName().isBlank()) {
+            user.setFirstName(userEditRequest.getFirstName());
+            message.append(String.format("your contact first name [%s] have been successfully removed, ", user.getFirstName()));
+            changes = true;
+        } else  if (user.getFirstName().isBlank() && !(userEditRequest.getFirstName().isBlank())) {
+            user.setFirstName(userEditRequest.getFirstName());
+            message.append(String.format("your first name have been set to [%s], ", user.getFirstName()));
+            changes = true;
+        }
+        return changes;
     }
 
     private User initializeUser(RegisterRequest registerRequest) {
