@@ -50,7 +50,7 @@ public class NotificationService {
     }
 
     public NotificationPreference getNotificationPreferences(UUID userId) {
-
+    // http request/response
     ResponseEntity<NotificationPreference> httpResponse = notificationClient.getUserPreference(userId);
 
     if(!httpResponse.getStatusCode().is2xxSuccessful()) {
@@ -58,11 +58,17 @@ public class NotificationService {
                 "Notification preference for user id [%s] doesn't exist.".formatted(userId));
     }
     return httpResponse.getBody();
+        // TODO Kafka
+
     }
 
+
     public List<Notification> getNotificationHistory(UUID userId) {
+        // http request/response
     ResponseEntity<List<Notification>> httpResponse = notificationClient.getNotificationHistory(userId);
     return httpResponse.getBody();
+        // TODO Kafka
+
     }
 
     public void sendNotification(UUID userId, String emailSubject, String emailBody) {
@@ -73,13 +79,13 @@ public class NotificationService {
                 .body(emailBody)
                 .build();
 
-        // http request/response
+         //http request/response
 //        ResponseEntity<Void> httpResponse;
 //        try {
 //            httpResponse = notificationClient.sendNotification(notificationRequest);
 //            if(!httpResponse.getStatusCode().is2xxSuccessful()) {
 //                log.error(
-//                        "[Feign call to notification-src failed] Can't sent email to user with id = [%s]"
+//                        "[Feign call to notification-src failed] Can't send email to user with id = [%s]"
 //                                .formatted(userId));
 //            }
 //
@@ -93,11 +99,13 @@ public class NotificationService {
     }
 
     public void updateNotificationPreference(UUID userId, boolean enabled) {
+        //http request/response
     try {
         notificationClient.updateNotificationPreference(userId, enabled);
     } catch (Exception e) {
         log.warn("Can't update notification preference for user with id = [%s].".formatted(userId));
     }
+    // TODO Kafka
 
     }
 }
