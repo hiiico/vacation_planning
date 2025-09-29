@@ -1,7 +1,7 @@
 /home/hiiico/IdeaProjects/vacation_planning/src/main/java/app/Application.java
 /home/hiiico/IdeaProjects/vacation_planning/src/main/java/app/aspect/LoggingAspect.java
 /home/hiiico/IdeaProjects/vacation_planning/src/main/java/app/config/BeanConfiguration.java
-/home/hiiico/IdeaProjects/vacation_planning/src/main/java/app/config/KafkaConfiguration.java
+/home/hiiico/IdeaProjects/vacation_planning/src/main/java/app/config/KafkaProducerConfig.java
 /home/hiiico/IdeaProjects/vacation_planning/src/main/java/app/config/WebMvcConfiguration.java
 /home/hiiico/IdeaProjects/vacation_planning/src/main/java/app/contract/model/Contract.java
 /home/hiiico/IdeaProjects/vacation_planning/src/main/java/app/contract/model/ContractType.java
@@ -16,9 +16,10 @@
 /home/hiiico/IdeaProjects/vacation_planning/src/main/java/app/employee/model/Employment.java
 /home/hiiico/IdeaProjects/vacation_planning/src/main/java/app/employee/repository/EmployeeRepository.java
 /home/hiiico/IdeaProjects/vacation_planning/src/main/java/app/employee/service/EmployeeService.java
-/home/hiiico/IdeaProjects/vacation_planning/src/main/java/app/event/UserRegisterEventProducer.java
+/home/hiiico/IdeaProjects/vacation_planning/src/main/java/app/event/EventMessage.java
+/home/hiiico/IdeaProjects/vacation_planning/src/main/java/app/event/EventProducer.java
+/home/hiiico/IdeaProjects/vacation_planning/src/main/java/app/event/ReplyEventConsumer.java
 /home/hiiico/IdeaProjects/vacation_planning/src/main/java/app/event/payload/UpsertNotificationPreference.java
-/home/hiiico/IdeaProjects/vacation_planning/src/main/java/app/event/payload/UserRegisterEvent.java
 /home/hiiico/IdeaProjects/vacation_planning/src/main/java/app/exception/CanNotChangeDetails.java
 /home/hiiico/IdeaProjects/vacation_planning/src/main/java/app/exception/DomainException.java
 /home/hiiico/IdeaProjects/vacation_planning/src/main/java/app/exception/UsernameAlreadyExist.java

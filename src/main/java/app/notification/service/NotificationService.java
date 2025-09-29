@@ -46,6 +46,7 @@ public class NotificationService {
 //        }
 
         // Kafka Async version that doesn't block the calling thread
+        log.info(">>> Received UpsertNotificationPreference for user {}", notificationPreference.getUserId());
         eventProducer.sendUpsertPreference(notificationPreference);
     }
 
@@ -61,7 +62,6 @@ public class NotificationService {
         // TODO Kafka
 
     }
-
 
     public List<Notification> getNotificationHistory(UUID userId) {
         // http request/response

@@ -101,7 +101,9 @@ public class UserService implements UserDetailsService {
         if(userEditRequest.getEmail().isBlank()) {
             String emailBody = "Hello %s, your contact email %s has been successfully removed from the Vacation Planner app."
                     .formatted(user.getUsername(), user.getEmail());
-            notificationService.sendNotification(userId, "Removed email.", emailBody);
+
+//            notificationService.sendNotification(userId, "Removed email.", emailBody);
+
             notificationService.saveNotificationPreference(userId, false, null);
         }
 
