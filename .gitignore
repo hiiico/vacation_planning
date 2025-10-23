@@ -1,0 +1,52 @@
+# Environment configs
+.env
+.env.local
+.env.development
+.env.production
+.env.staging
+.env.test
+
+# Keep example files
+!.env.example
+!.env.sample
+!.env.template
+
+# Docker
+docker-compose.override.yml
+docker-compose.*.yml
+
+# Build outputs
+target/
+build/
+dist/
+out/
+bin/
+
+# Logs
+*.log
+logs/
+
+# IDE
+.vscode/
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temp files
+*.tmp
+*.temp
+*.cache
+
+# Backup files
+*.bak
+*.backup
